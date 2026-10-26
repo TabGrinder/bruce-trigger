@@ -1,0 +1,22 @@
+PASS: package ZIP, required entries, permission policy, backup, cleartext, exported launcher, v2/v3 signature, source freshness and embedded build-input inventory.
+APK bytes: 152530
+APK SHA256: 3d04a453b60c1875d029d2e3ed11d2bf304eb322532b0151db58abd3a7f0c53a
+Verifies
+Verified using v1 scheme (JAR signing): false
+Verified using v2 scheme (APK Signature Scheme v2): true
+Verified using v3 scheme (APK Signature Scheme v3): true
+Verified using v3.1 scheme (APK Signature Scheme v3.1): false
+Verified using v4 scheme (APK Signature Scheme v4): false
+Verified for SourceStamp: false
+Number of signers: 1
+Signer #1 certificate DN: CN=Bruce trigger, OU=Community, O=TabGrinder
+Signer #1 certificate SHA-256 digest: 041ca9035b9e807025a0b12c3f01229800448267d1f17a46ec517cdf4514440b
+Signer #1 certificate SHA-1 digest: ab477aefafffa36a4a61abf7867ded5f95976be9
+Signer #1 certificate MD5 digest: 7b7f7a77ffa3b6cc42809cc1813b521e
+Signer #1 key algorithm: RSA
+Signer #1 key size (bits): 3072
+Signer #1 public key SHA-256 digest: f29166adcbf12312eeb8fbb53611934b2ac357e029ecbdbc9f48048fe840126e
+Signer #1 public key SHA-1 digest: c5ead1def2ea512ad9914ab7b0f3d1527147a8af
+Signer #1 public key MD5 digest: d4bdc996b5b87fbe8e2ac0824f4c6b4b
+
+PASS: zero manifest permissions; version100/1.0; singleTask; non-debuggable; one Activity and no services/providers/receivers; backup+transfer domain exclusions; no native libraries/Web assets/keys; build record.

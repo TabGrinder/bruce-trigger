@@ -1,0 +1,20 @@
+PASS 10445 USB assertions, including 10,000 malformed response cases, all identity split points, actual controller with Android/USB doubles. No physical USB test.
+PASS 2030 mirror bridge assertions; host/USB doubles only, no physical LILYGO.
+PASS old-vs-new probe: control busy=true, data kernel-bound=false, recovered=true, claim calls=[1:false]
+PASS old-vs-new probe: control busy=false, data kernel-bound=true, recovered=true, claim calls=[1:false, 1:true]
+PASS old-vs-new probe: control busy=true, data kernel-bound=true, recovered=true, claim calls=[1:false, 1:true]
+PASS 10071 theme transfer, one-MiB bounds, corruption, cancellation and 1000-packet USB burst checks (host doubles).
+PASS 1148 paced-upload, cancellation, short-write, fixed-line and interpreter-error checks.
+PASS 586 menu protocol, fragmented replies, interpreter guard, timeout/no-replay and bounded theme-mapping checks (host USB doubles).
+PASS 1074014 game framing, bounded resources, approval, fragmentation, ownership, timeout and lifecycle checks (USB doubles).
+PASS 10808 Files path, fixed template, generic exit, explicit unsupported and malformed graphics checks.
+PASS 1218 File Info whitespace, field-row, reconnect and USB split regressions.
+PASS packet pause: requested=64, partial timeouts=0, bytes discarded=0, frames=25
+PASS 6 packet-level checks. USB/kernel behavior is modeled; no physical LilyGO or Android phone attached.
+PASS 16044 recovery assertions: all two-erasure combinations, corruption, duplicate/order, bounds, 24/300 first-shard loss, every USB split with SELECT; exact graphics, no input replay. Hardware is simulated.
+PASS 37 game input freshness, bounded FIFO, held cancellation, no write replay and owned JS-read checks.
+PASS 1633 single-interpreter handover, every split, native packet continuity, marker loss, ownership and return-to-capture checks; USB doubled.
+PASS 1444 Megalodon lifecycle, splits, source integrity and profile assertions; USB doubled.
+PASS 7068 compressed graphics boundary, corruption, erasure, heartbeat, duplicate, reset and byte-equivalence assertions.
+PASS 20 persistent capture ownership and USB loss classification assertions
+PASS 19 queued-input cancellation assertions (USB worker slot doubled).

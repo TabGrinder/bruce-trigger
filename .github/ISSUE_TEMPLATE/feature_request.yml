@@ -1,0 +1,23 @@
+name: Feature request
+description: Suggest an improvement to Bruce Trigger.
+title: "[Feature] "
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What would you like to do?
+      description: Describe the task you cannot complete with the current app.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Suggested change
+      description: Describe how you would like it to work.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Hardware, firmware and references
+      description: For compatibility requests, include device models, versions and relevant documentation.

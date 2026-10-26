@@ -1,0 +1,7 @@
+import com.tabgrinder.brucetrigger.*;
+public class InteractionTest {
+ static int n;static void ok(boolean b,String label){n++;if(!b)throw new AssertionError(label);}
+ public static void main(String[] args){RotaryGesture g=new RotaryGesture();g.begin(170);ok(g.move(-170)==1,"clockwise crossing180");g.cancel();ok(g.move(-150)==0,"cancel suppresses continuation");g.begin(-170);ok(g.move(170)==-1,"counterclockwise crossing180");g.begin(0);ok(g.move(5)==0,"jitter below detent");ok(g.move(10)==0,"accumulate below detent");ok(g.move(15)==1,"one full detent");ok(g.move(15)==0,"stationary no extra input");g.begin(0);ok(g.move(180)==0,"unrealistic angular jump rejected");g.begin(Double.NaN);ok(g.move(20)==0,"invalid gesture origin");g.begin(0);ok(g.move(Double.NaN)==0,"invalid movement safe");g.begin(0);ok(g.move(60)==4,"batched motion retains angular detents");ok(g.move(60)==0,"no queued catchup");
+ byte[] truncated=new byte[125];truncated[0]=(byte)170;truncated[1]=(byte)128;truncated[2]=16;ok(FrameValidator.exceedsNotificationPayload(truncated,128),"MTU128 frame truncation identified");truncated[1]=125;ok(!FrameValidator.exceedsNotificationPayload(truncated,128),"complete payload not rejected");ok(!FrameValidator.exceedsNotificationPayload(new byte[]{(byte)170,8,99,1,64,0,(byte)170,1},128),"small geometry accepted at observed MTU");ok(!FrameValidator.exceedsNotificationPayload(null,128),"null capacity check safe");
+ System.out.println("PASS "+n+" rotary and MTU regression assertions.");}
+}

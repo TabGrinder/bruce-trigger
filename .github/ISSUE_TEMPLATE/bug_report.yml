@@ -1,0 +1,68 @@
+name: Bug report
+description: Report a reproducible Bruce Trigger problem.
+title: "[Bug] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Check the [user guide](https://github.com/TabGrinder/bruce-trigger/blob/main/docs/USAGE.md) and [known limitations](https://github.com/TabGrinder/bruce-trigger/blob/main/docs/KNOWN_LIMITATIONS.md) before reporting. Remove private information from attachments. For security issues, follow the [security policy](https://github.com/TabGrinder/bruce-trigger/blob/main/SECURITY.md).
+  - type: input
+    id: app
+    attributes:
+      label: App version and source
+      description: Tell us if you built the APK yourself. Include its SHA-256 if available.
+      placeholder: "1.0, release APK"
+    validations:
+      required: true
+  - type: input
+    id: phone
+    attributes:
+      label: Phone model and Android version
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: LILYGO model and Bruce version
+      placeholder: "T-Embed CC1101, Bruce 1.16.1"
+    validations:
+      required: true
+  - type: input
+    id: theme
+    attributes:
+      label: Active theme
+      description: Enter "default" or the name of your custom theme.
+    validations:
+      required: true
+  - type: input
+    id: usb
+    attributes:
+      label: USB setup
+      description: Cable or adapter, OTG support, and whether Android granted USB access.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: List the steps that trigger the problem, including the menu or script you were using.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: Describe any difference between the Android view and the physical screen.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Screenshots or diagnostic report
+      description: Optional. Remove private details before sharing.

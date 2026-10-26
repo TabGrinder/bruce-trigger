@@ -1,0 +1,1 @@
+package android.hardware.usb;public class UsbEndpoint {public int direction,type,size;public UsbEndpoint(int d,int t,int s){direction=d;type=t;size=s;}public int getDirection(){return direction;}public int getType(){return type;}public int getMaxPacketSize(){return size;}}

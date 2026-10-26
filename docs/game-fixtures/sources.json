@@ -1,0 +1,110 @@
+[
+  {
+    "name": "Dino",
+    "description": "Dino game",
+    "category": "Games",
+    "version": "1.0.1",
+    "commit": "c9d3731b38e67598e5b66a6488d8b12aeb8bf4dd",
+    "owner": "BruceDevices",
+    "repo": "firmware",
+    "supported-devices": "T-Embed.*",
+    "path": "/sd_files/interpreter/",
+    "files": [
+      {
+        "source": "dino_game.js",
+        "destination": "Dino.js"
+      }
+    ],
+    "github_blob_sha": "a3513d24e5df5be4120b8ee43b10bc76090f33c5",
+    "sha256": "c29cbd0f392da0792204404e76a7492f815bc52054f71d8de1582521017d7ab7"
+  },
+  {
+    "name": "Highway Racer",
+    "description": "Car racing game",
+    "category": "Games",
+    "version": "1.0.1",
+    "commit": "c9d3731b38e67598e5b66a6488d8b12aeb8bf4dd",
+    "owner": "BruceDevices",
+    "repo": "firmware",
+    "path": "/sd_files/interpreter/",
+    "files": [
+      {
+        "source": "highway_racer.js",
+        "destination": "Highway Racer.js"
+      }
+    ],
+    "github_blob_sha": "c9c315f371a3edadd15aeadd690515160caba1a6",
+    "sha256": "2a8808876ed818189aeddf74f24e591ac0dc805a0cc414983db3669b9a4c1228"
+  },
+  {
+    "name": "Ping Pong",
+    "description": "Ping Pong game",
+    "category": "Games",
+    "version": "1.0.1",
+    "commit": "c9d3731b38e67598e5b66a6488d8b12aeb8bf4dd",
+    "owner": "BruceDevices",
+    "repo": "firmware",
+    "path": "/sd_files/interpreter/",
+    "files": [
+      {
+        "source": "pingpong.js",
+        "destination": "Ping Pong.js"
+      }
+    ],
+    "github_blob_sha": "864561b8738dfdeeb49657411a32085c3ce75621",
+    "sha256": "57c6854e64b5cc236e5550851ed5aadaa824e93de5bd4dacb41670b5e42fe475"
+  },
+  {
+    "name": "Space Shooter",
+    "description": "Space Shooter game",
+    "category": "Games",
+    "version": "1.0.1",
+    "commit": "c9d3731b38e67598e5b66a6488d8b12aeb8bf4dd",
+    "owner": "BruceDevices",
+    "repo": "firmware",
+    "path": "/sd_files/interpreter/",
+    "files": [
+      {
+        "source": "space_shooter.js",
+        "destination": "Space Shooter.js"
+      }
+    ],
+    "github_blob_sha": "4a3573d3d869277faa91c2a1eeddcfc56e9d49e6",
+    "sha256": "185f1d0e106910d65071720a64a96efa3462524f759b0aafba81c95977977785"
+  },
+  {
+    "name": "Tamagochi",
+    "description": "Tamagochi virtual pet",
+    "category": "Games",
+    "version": "1.0.1",
+    "commit": "c9d3731b38e67598e5b66a6488d8b12aeb8bf4dd",
+    "owner": "BruceDevices",
+    "repo": "firmware",
+    "path": "/sd_files/interpreter/",
+    "files": [
+      {
+        "source": "tamagochi.js",
+        "destination": "Tamagochi.js"
+      }
+    ],
+    "github_blob_sha": "ba63910a7d85954128122e8c705fc15ae35c5943",
+    "sha256": "d436158d870a13de53a24d2ec226e6317a5674939c9236869f12915f2780cc93"
+  },
+  {
+    "name": "Flappy Bird",
+    "description": "Classic Flappy Bird arcade game for Bruce devices with score tracking and sound effects",
+    "category": "Games",
+    "version": "1.0.7",
+    "commit": "97a826ea98be2d108c71fbb1d296458a386033ad",
+    "owner": "Valkrycxx",
+    "repo": "bruce-flappybird",
+    "path": "/",
+    "files": [
+      {
+        "source": "flappybird.js",
+        "destination": "Flappy Bird.js"
+      }
+    ],
+    "sha256": "ed99e3b65654311fc58674682aefaa3ccb99d7449e3e8b8a6bcb4d793c4b629c"
+  }
+]

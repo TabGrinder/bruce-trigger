@@ -1,0 +1,94 @@
+/* SPDX-License-Identifier: AGPL-3.0-or-later
+ * Megalodon RAM adaptation, based on Bruce tururururu.cpp by IncursioHack.
+ * Original: brucedevices/firmware ba519c936c87b89c9c667c15b932d7faca5360d5.
+ * Adaptation and USB rendering: TabGrinder. Full corresponding source accompanies the APK.
+ * This is a RAM game, not capture of the compiled firmware game.
+ */
+(function(){
+var tag='BT_@@NONCE@@_GAME|',capture=@@CAPTURE@@,out=serial.print,wait=delay,clock=now;
+var d=require('display'),keys=require('keyboard'),seq=0,bytes=[],ops=0,flushed=0,screen=null,started=clock();
+var stopped=false,paused=false,up=[],down=[],sampleAt=0,keyReads=0;
+function emit(s){out('\n'+tag+s+'\n');}
+function fail(s){throw 'MIRROR:'+s;}
+function sampleKeys(){var t=clock();if(((t-sampleAt)>>>0)<5)return;sampleAt=t;
+if(keys.getEscPress()){stopped=true;return;}
+if(keys.getSelPress()){paused=!paused;up=[];down=[];}
+var p=keys.getPrevPress(),n=keys.getNextPress();
+if(!paused){if(p&&up.length<4)up.push(t);if(n&&down.length<4)down.push(t);}
+if(p||n){keyReads++;out('\n'+tag.replace('_GAME|','_KEY|')+(p?'prev':'next')+'|'+keyReads+'\n');}}
+var pairs=[],digits='0123456789abcdef';for(var hi=0;hi<256;hi++)pairs.push(digits.charAt(hi>>4)+digits.charAt(hi&15));
+function send(s){sampleKeys();out('\n'+tag+s+'\n');sampleKeys();wait(1);}
+function sum(data){var a=1,b=0;for(var i=0;i<data.length;i++){a+=typeof data==='string'?data.charCodeAt(i):data[i];b+=a;if(i%80===79){a%=65521;b%=65521;}}return (b%65521)*65536+a%65521;}
+var weights=[];for(var wi=0;wi<8;wi++){var row=[];for(var v=0;v<256;v++){var x=v;for(var z=0;z<wi;z++){x<<=1;if(x&256)x^=285;}row.push(x);}weights.push(row);}
+var previous=[];
+function compress(data){if(data.length<81||data.length!==previous.length)return data;
+var x=[],z=[];for(var i=0;i<data.length;i++)x.push(data[i]^previous[i]);
+for(var i=0;i<x.length;){var run=1;while(run<130&&i+run<x.length&&x[i+run]===x[i])run++;
+if(run>=3){z.push(128+run-3);z.push(x[i]);i+=run;}else{var begin=i;i+=run;
+while(i<x.length&&i-begin<128){if(i+2<x.length&&x[i]===x[i+1]&&x[i]===x[i+2])break;i++;}
+var n=i-begin;if(n>128){i=begin+128;n=128;}z.push(n-1);for(var j=begin;j<i;j++)z.push(x[j]);}}
+return Math.ceil(z.length/80)<Math.ceil(data.length/80)?z:data;}
+function flush(force){var t=clock();if(bytes.length===0&&!force&&((t-flushed)>>>0)<250)return;
+var dataBytes=compress(bytes),mode=dataBytes===bytes?'R':'D';
+var head=mode+'|'+seq+'|'+dataBytes.length+'|'+ops+'|'+sum(dataBytes)+'|';
+function shard(id,values){var s=head+id+'|';for(var j=0;j<values.length;j++)s+=pairs[values[j]];send(s+'|'+sum(s));}
+if(bytes.length===0){shard(0,[]);shard(0,[]);shard(0,[]);}
+for(var base=0,g=0;base<dataBytes.length;base+=640,g++){var p=[],q=[];for(var j=0;j<80;j++){p.push(0);q.push(0);}
+for(var k=0;k<8&&base+k*80<dataBytes.length;k++){var data=[],row=weights[k];for(var j=0;j<80;j++){var at=base+k*80+j,v=at<dataBytes.length?dataBytes[at]:0;data.push(v);p[j]^=v;q[j]^=row[v];}shard(g*10+k,data);}
+shard(g*10+8,p);shard(g*10+9,q);}
+if(bytes.length)previous=bytes;seq++;bytes=[];ops=0;flushed=clock();}
+function packed(p){sampleKeys();p[1]=p.length;if(ops>=240||bytes.length+p.length>3800)flush(true);ops++;for(var i=0;i<p.length;i++)bytes.push(p[i]);}
+function rgb(v){return (typeof v==='number'?v|0:0)&65535;}
+function packet(op,words,text){var p=[170,0,op];for(var i=0;i<words.length;i++){var v=words[i]|0;p.push((v>>>8)&255);p.push(v&255);}
+if(text!==undefined){if(text.length>80)fail('text length');for(var i=0;i<text.length;i++){var c=text.charCodeAt(i);if(c===65293)c=45;if(c<32||c>126)fail('text glyph');p.push(c);}p.push(0);}
+packed(p);}
+
+/* Immutable RGB565 masks. Stock Sprite supports drawXBitmap, not triangles. */
+var masks=[[32,30,[[31727,[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,2,0,0,0,6,0,0,0,6,0,1,0,14,0,3,0,30,0,7,0,30,0,15,224,255,1,63,248,255,8,127,252,255,29,255,
+252,255,31,255,255,255,63,255,252,127,0,63,252,253,16,15,56,224,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]],[54938,[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,192,31,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]],[63488,[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,7,0,0,0,2,0,0,0,0,0,0,
+0,0,0,0,128,63,0,0,0,15,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]]],[20,8,[[64928,[0,0,1,0,0,1,180,67,1,162,107,1,183,123,1,190,123,1,188,67,
+1,0,0,1]],[65535,[0,0,0,64,132,0,64,132,0,64,132,0,64,132,0,64,132,0,64,132,0,64,132,0]]]]];
+for(var ai=0;ai<masks.length;ai++)for(var li=0;li<masks[ai][2].length;li++)masks[ai][2][li][1]=new Uint8Array(masks[ai][2][li][1]);
+function shape(o,id,x,y,kind){var a=masks[kind-1],w=a[0],h=a[1],stride=(w+7)>>3;
+if(o)o.drawFillRect(x,y,w,h,0);
+for(var i=0;i<a[2].length;i++){var layer=a[2][i],c=layer[0],bits=layer[1];
+if(o)o.drawXBitmap(x,y,bits,w,h,c);
+if(id){var rows=Math.floor(79/stride);for(var yy=0;yy<h;yy+=rows){var ch=Math.min(rows,h-yy),p=[170,0,96],words=[0,yy,w,ch,c,0,0];
+for(var j=0;j<words.length;j++)p.push((words[j]>>>8)&255,words[j]&255);
+for(var j=0;j<ch*stride;j++)p.push(bits[yy*stride+j]);packed(p);}}}}
+function asset(id,w,h){packet(90,[id,w,h,16]);packet(91,[id]);packet(0,[0]);shape(null,id,0,0,id);}
+function fresh(f){f.x=340+Math.floor(Math.random()*80);f.y=10+Math.floor(Math.random()*140);}
+try{
+if(capture){wait(600);if(!serial.cmd('display stop'))fail('capture stop');wait(200);for(var c=0;c<3;c++){emit('CAPTURE_OFF');wait(10);}}
+emit('SEARCH');if(d.width()!==320||d.height()!==170)fail('geometry');
+screen=d.createSprite();if(!screen||screen.width()!==320||screen.height()!==170)fail('sprite allocation');
+var required=['drawXBitmap','drawFillRect','fill','drawString','pushSprite','deleteSprite','setTextAlign','setTextColor','setTextSize'];
+for(var ri=0;ri<required.length;ri++)if(typeof screen[required[ri]]!=='function')fail('sprite '+required[ri]);
+screen.setTextAlign('left','top');screen.setTextColor(65535,0);screen.setTextSize(2);
+var fish=[],y=80,score=0,last=clock(),stepAt=last,frameAt=0;
+for(var i=0;i<5;i++){var f={x:0,y:0};fresh(f);fish.push(f);}
+emit('ON');bytes=[170,8,99,1,64,0,170,1];ops=1;packet(0,[0]);
+asset(1,32,30);asset(2,20,8);packet(91,[0]);packet(0,[0]);flush(true);
+while(!stopped&&((clock()-started)>>>0)<1800000){
+sampleKeys();var t=clock(),interval=score<10?50:score<20?40:score<30?35:score<40?30:score<50?25:15;
+while(up.length&&((t-up[0])>>>0)>=250)up.shift();while(down.length&&((t-down[0])>>>0)>=250)down.shift();
+if(paused)stepAt=t;
+if(!paused&&((t-stepAt)>>>0)>=interval){
+var steps=Math.min(4,Math.floor(((t-stepAt)>>>0)/interval));stepAt=t;
+y=Math.max(0,Math.min(156,y+3*(down.length-up.length)));up=[];down=[];
+for(var i=0;i<5;i++){var f=fish[i];f.x-=2*steps;if(f.x < -10)fresh(f);
+if(40<f.x+8&&54>f.x&&y<f.y+8&&y+14>f.y){score++;fresh(f);}}}
+if(((t-frameAt)>>>0)>=50){
+screen.fill(0);shape(screen,0,26,y-7,1);packet(0,[0]);packet(92,[1,26,y-7,65504]);
+for(var i=0;i<5;i++){var f=fish[i];shape(screen,0,f.x,f.y,2);packet(92,[2,f.x,f.y,65504]);}
+var text=paused?'PAUSED':('Score: '+score);screen.drawString(text,0,0);packet(16,[0,0,2,65535,0],text);
+screen.pushSprite(0,0);flush(true);frameAt=t;
+}
+sampleKeys();wait(5);
+}
+packet(93,[1]);packet(93,[2]);flush(true);emit('DONE');
+}catch(e){if(e&&e.message==='Script exited')emit('STOP');else{emit('REASON|'+String(e).replace(/[^ -~]/g,'?').substring(0,60));emit('ERROR');}}
+finally{if(screen){screen.deleteSprite();screen=null;}}
+})();

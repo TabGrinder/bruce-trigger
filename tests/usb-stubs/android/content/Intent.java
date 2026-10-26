@@ -1,0 +1,1 @@
+package android.content; public class Intent {public String action,pkg;public Intent(String s){action=s;}public String getAction(){return action;}public Intent setPackage(String p){pkg=p;return this;}}

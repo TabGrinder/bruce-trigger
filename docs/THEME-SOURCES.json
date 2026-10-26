@@ -1,0 +1,74 @@
+{
+  "retrieved": "2026-10-24",
+  "builder_url": "https://bruce.computer/build_theme.html",
+  "builder_sha256": "e8492ec36b5174e5b41078b9ed373963f6554359af4f1220bb6cde746a0e21b7",
+  "store_url": "https://bruce.computer/appstore",
+  "store_sha256": "50affa3f6110a7a37856825d250c0a39f21ea65c590b583177dc1772a3dbe137",
+  "cyberpunk_metadata": {
+    "name": "Cyberpunk 2077",
+    "description": "A vibrant neon cyberpunk theme for Bruce inspired by Cyberpunk 2077, featuring bright colors and futuristic UI elements that bring the dystopian aesthetic to your device. By eni9ma",
+    "category": "Themes",
+    "version": "1.0.0",
+    "commit": "c3a78d4a4e431351833d8124109bc81f7c267b57",
+    "owner": "BruceDevices",
+    "repo": "App-Store-Apps",
+    "supported-screen-size": "320x170",
+    "path": "/Themes/Cyberpunk 2077 320x170/",
+    "files": [
+      {
+        "source": "theme.json",
+        "destination": "Cyberpunk 2077.json"
+      },
+      "1.png",
+      "10.png",
+      "11.png",
+      "12.png",
+      "13.png",
+      "14.png",
+      "2.png",
+      "3.png",
+      "4.png",
+      "5.png",
+      "6.png",
+      "7.png",
+      "8.png",
+      "9.png"
+    ]
+  },
+  "image_directory_used_in_test": "/Theme/CYBERPUNK2077 by -eni9ma/",
+  "assets": {
+    "1.png": "f96de1e39ac6a8b319d52c67ed57bf590bce6f4d46d53600967549762dd6b530",
+    "10.png": "23e67844aa673761d846932223581bb84981c4f6b6647c2b1a8caa01716ff430",
+    "11.png": "97fce541ff133ccb4a0f2d5e0903e42cd219178521387e4bdcd0beb01c846bad",
+    "12.png": "141be78c7adb67898fa31711a720a63494ff4a0688d61ef28e95f9ee7a027176",
+    "13.png": "1c262b6d09a8744a9a254d1a49efb256eb8757098bf6d20a798d777545583d2a",
+    "14.png": "bad345f566c19994898f6b4835ec2adc1db09eb9c831570e5a8924ea92e6e7c2",
+    "2.png": "6b1aa7ac8f8d7cf53038ec8a23307e779ec997758680bd4fd413d37290dfe8d9",
+    "3.png": "8a084f6fc208bbcdef7a71e60af07ebf513cfc57bda594fe3fcecba8c894f71f",
+    "4.png": "68cc7754828105643e2ff61b93c67e126094a35045405ece4989dadaada27e68",
+    "5.png": "3e049d5c2dd917743e8074eb42b966e08170a227fcc5bf14a0515ecd1d34e0c6",
+    "6.png": "2873888658c2148a1c8c1cc80d3db545936f94d2450c96b957960836360ec4dc",
+    "7.png": "949ee7ffb8774af4f0ff28769f218f55b0f65d3defe88681d6b382bd8e1d5615",
+    "8.png": "11cd7e2724e751fb4339a5a991c9cbb39c96bea2741df0634a1c780d6ffaa245",
+    "9.png": "35ccd3eaa3465ba6efccda8b44db10f5b00b305f12070acdff032979bcdd4543",
+    "theme.json": "599b914c8ce3f2fb95daa6665151008f5d75dffd0d338c921f00749667cd0c5c"
+  },
+  "flappy_metadata": {
+    "name": "Flappy Bird",
+    "description": "Classic Flappy Bird arcade game for Bruce devices with score tracking and sound effects",
+    "category": "Games",
+    "version": "1.0.7",
+    "commit": "97a826ea98be2d108c71fbb1d296458a386033ad",
+    "owner": "Valkrycxx",
+    "repo": "bruce-flappybird",
+    "path": "/",
+    "files": [
+      {
+        "source": "flappybird.js",
+        "destination": "Flappy Bird.js"
+      }
+    ]
+  },
+  "flappy_source_sha256": "ed99e3b65654311fc58674682aefaa3ccb99d7449e3e8b8a6bcb4d793c4b629c",
+  "note": "Official-store assets used only in QA. Paths are not proof of the user device filesystem contents. Test screenshot is an emulator render, not a physical mirror capture."
+}

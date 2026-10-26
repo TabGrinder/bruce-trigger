@@ -1,0 +1,91 @@
+{
+  "metadata": {
+    "name": "Flipper",
+    "description": "Flipper Zero based theme. By mostixgrand",
+    "category": "Themes",
+    "version": "1.0.0",
+    "commit": "c3a78d4a4e431351833d8124109bc81f7c267b57",
+    "owner": "BruceDevices",
+    "repo": "App-Store-Apps",
+    "supported-screen-size": "320x170",
+    "path": "/Themes/Flipper 320x170/",
+    "files": [
+      {
+        "source": "theme.json",
+        "destination": "Flipper.json"
+      },
+      "ble.png",
+      "clock.png",
+      "config.png",
+      "connect.png",
+      "files.png",
+      "fm.png",
+      "gps.png",
+      "interpreter.png",
+      "ir.png",
+      "nrf.png",
+      "others.png",
+      "rf.png",
+      "rfid.png",
+      "wifi.png"
+    ]
+  },
+  "assets": {
+    "ble.png": {
+      "bytes": 2446,
+      "sha256": "cec4243e1ad613d51451fb56aa956a9f0bd61eaedc543f7970ad737272c5badf"
+    },
+    "clock.png": {
+      "bytes": 2611,
+      "sha256": "c663b2cd1a4984d1563e436767dd6b64ca3bfe3324a354cfd156d7143f9f216b"
+    },
+    "config.png": {
+      "bytes": 2881,
+      "sha256": "9b59cc2da688b220127dba6317204418c557c39f53c23717345727da5f464eed"
+    },
+    "connect.png": {
+      "bytes": 2776,
+      "sha256": "c7582d4e600edf82adebe4978423184786503988fe20d28106a157574a5d9ba0"
+    },
+    "files.png": {
+      "bytes": 4018,
+      "sha256": "8a126f6b2f6fe61071a59fb5265ce3e94365f4a42e33615bb608cdd9f0806684"
+    },
+    "fm.png": {
+      "bytes": 3609,
+      "sha256": "b7c0042929e026de7982e1769ee922ebc968b89e091bef7be24f1776ae3f711c"
+    },
+    "gps.png": {
+      "bytes": 3598,
+      "sha256": "f8dc77468359ff6e390bc61194c45ac8ad76a2556474ca01b31e1faa73bba8b7"
+    },
+    "interpreter.png": {
+      "bytes": 3081,
+      "sha256": "31a8c7760cdb4fabb8aa2a3606bb417387d00bcf07d1a9533b1fd3fd9accc2c5"
+    },
+    "ir.png": {
+      "bytes": 3371,
+      "sha256": "5424221fb7b80962b3554e86d448300e464d9c40d3c7c4052b0709bc1366e3bc"
+    },
+    "nrf.png": {
+      "bytes": 3432,
+      "sha256": "3ec53d9933f8ecb54a617c3fbca741c12608a63db74325978ec05a5c0536ac3b"
+    },
+    "others.png": {
+      "bytes": 2569,
+      "sha256": "f3905039d98d2a85558bc4198faa606fbb9412d3940a1d498e7922aa087eb5f2"
+    },
+    "rf.png": {
+      "bytes": 1808,
+      "sha256": "3ac5cd03fd45b1437b911aa6730b09fdd02ad96cb93eed3717bd8f3ff57b60d6"
+    },
+    "rfid.png": {
+      "bytes": 1954,
+      "sha256": "0f73d7a3714a51adf2fc96588e46de275af4f9a164b329a8944ae24822bdbbc8"
+    },
+    "wifi.png": {
+      "bytes": 2661,
+      "sha256": "c117ccca19989093467e07aa572fc8610b48392c870d290e5c369b77f1ca7091"
+    }
+  }
+}

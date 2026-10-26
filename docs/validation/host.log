@@ -1,0 +1,9 @@
+PASS 2759 assertions; 10,000 malformed-frame cases; all fixture split points.
+PASS 10041 default stock font/layout assertions (wire omits custom font and datum state).
+PASS 4 transport-event ownership assertions.
+PASS 22 traffic budget assertions.
+PASS 150 display and diagnostic flood assertions.
+PASS 16 rotary and MTU regression assertions.
+PASS 10054 native screen assertions (no device-radio claim).
+PASS 7 stock power-dialog datum regressions.
+PASS 61 serial line-boundary assertions.

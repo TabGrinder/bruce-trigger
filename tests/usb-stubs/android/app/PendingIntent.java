@@ -1,0 +1,2 @@
+package android.app;import android.content.*;
+public class PendingIntent {public static final int FLAG_IMMUTABLE=0x04000000;public boolean cancelled;public Intent intent;public int flags;public static PendingIntent getBroadcast(Context c,int n,Intent i,int f){if(i.pkg==null||f!=FLAG_IMMUTABLE)throw new AssertionError("permission token must be immutable/package-specific");PendingIntent p=new PendingIntent();p.intent=i;p.flags=f;return p;}public void cancel(){cancelled=true;}}
