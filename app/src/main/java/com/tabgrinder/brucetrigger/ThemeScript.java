@@ -1,6 +1,6 @@
 package com.tabgrinder.brucetrigger;
 
-/** Read-only script for the built-in Bruce 1.16.1 interpreter. No firmware or filesystem writes. */
+/** Read-only script for the compatible Bruce JavaScript interpreter. No firmware or filesystem writes. */
 final class ThemeScript {
   static String source(String nonce) {
     if(nonce==null || !nonce.matches("[0-9a-f]{16}")) throw new IllegalArgumentException("nonce");

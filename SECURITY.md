@@ -1,19 +1,21 @@
 # Security policy
 
-This policy covers Bruce Trigger's Android app and USB integration.
+This policy covers Bruce Trigger's Android application and its USB integration. The current public release scope is **1.0**; this policy does not promise a response time or a maintenance period.
 
-## Report a vulnerability
+## Report a suspected vulnerability
 
-Use **Security → Report a vulnerability** if private reporting is available. Otherwise, open an issue asking for a private contact method. Keep vulnerability details and credentials out of public issues.
+If the repository's Security tab offers **Report a vulnerability**, use that private reporting route. If private reporting is unavailable, open a minimal issue asking the maintainer for a private contact method. Do not include sensitive details, credentials or exploit material in a public issue while arranging contact.
 
-Include the affected app and firmware versions, phone and board models, steps to reproduce the issue, and its impact. Share only the information needed to investigate it.
+In the private report, include the affected app and firmware versions, phone and board models, relevant USB or script conditions, expected and actual behavior, and a minimal reproduction. Share only information needed to understand the issue and remove unrelated private data.
 
-For ordinary connection or display problems, use the [bug report form](https://github.com/TabGrinder/bruce-trigger/issues/new?template=bug_report.yml).
+Ordinary compatibility or rendering problems belong in the [bug report form](https://github.com/TabGrinder/bruce-trigger/issues/new?template=bug_report.yml).
 
-## Scripts and device access
+## Trust boundaries
 
-Only connect devices and run scripts you trust. Scripts retain their normal Bruce privileges; the graphics bridge does not sandbox them. Mirroring can omit unsupported graphics, so keep the physical device accessible.
+- Android grants USB access to the connected device. The app sends controls and supported commands to that device; the connection is not a guarantee that the firmware or scripts are trustworthy.
+- Scripts run with their normal Bruce privileges. The temporary graphics bridge does not sandbox them or certify their behavior.
+- Mirroring covers supported drawing output. Missing or delayed graphics can leave the Android view incomplete; keep the physical device accessible.
+- The supplied APK declares no Internet, Bluetooth or location permissions. Exporting notes or sharing copied reports moves that information outside the app's private storage at the user's direction.
+- Host tests, modeled USB tests and package checks have a defined scope. See [VALIDATION.md](VALIDATION.md) before relying on a hardware or runtime claim.
 
-The app communicates over USB and declares no Internet, Bluetooth or location permissions. Check notes and diagnostic reports for private information before sharing them.
-
-See [Validation](VALIDATION.md) for test coverage and the [use disclaimer](DISCLAIMER.md) for authorized use.
+Use the app within the [authorized-use scope](DISCLAIMER.md). Preserve attribution and avoid publishing someone else's private information when reporting or discussing a problem.

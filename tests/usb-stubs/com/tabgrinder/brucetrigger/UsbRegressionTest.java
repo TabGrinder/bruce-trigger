@@ -15,7 +15,10 @@ public class UsbRegressionTest {
   Fixture(Listener l){listener=l;Handler.reset();ctx.manager.devices.put(d.name,d);controller=new UsbController(ctx,listener);}
   UsbDeviceConnection port(){return ctx.manager.connection;}
   void open()throws Exception{controller.connect(d);until(()->controller.isOpen(),"open");Handler.advance(600);}
-  void verify()throws Exception {ok(controller.command("info"),"explicit info accepted");until(()->port().outgoing.size()==1,"one write");port().incoming.add(bytes(identity));until(()->controller.isReady(),"firmware verification");Handler.advance(200);}
+  void verify()throws Exception {ok(controller.command("info"),"explicit info accepted");until(()->port().outgoing.size()==1,"one write");port().incoming.add(bytes(identity));until(()->controller.isReady(),"firmware verification");
+    // Isolate legacy USB tests from capability negotiation, verified separately below.
+    controller.session.mirror.probeFinished=true;controller.session.mirror.probeMirrorReady=true;controller.session.mirror.probeThemeReady=true;
+    Handler.advance(200);}
   public void close()throws Exception {controller.destroy();until(()->ctx.manager.opens==0||port().closed,"worker releases connection");Handler.runCurrent();ok(ctx.receivers.isEmpty(),"all dynamic receivers removed");}
  }
  static void sessionTests(){

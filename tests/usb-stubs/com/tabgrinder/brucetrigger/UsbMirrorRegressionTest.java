@@ -12,7 +12,7 @@ public final class UsbMirrorRegressionTest {
   static void ok(boolean v,String s){checks++;if(!v)throw new AssertionError(s);}
   static byte[] bytes(String s){return s.getBytes(StandardCharsets.US_ASCII);}
   static byte[] join(byte[]... chunks){int n=0;for(byte[] c:chunks)n+=c.length;byte[] all=new byte[n];int p=0;for(byte[] c:chunks){System.arraycopy(c,0,all,p,c.length);p+=c.length;}return all;}
-  static UsbSerialSession verified(){UsbSerialSession s=new UsbSerialSession();s.open(0);s.begin("info",600);s.written(5,5,601);s.receive(bytes(UsbRegressionTest.identity),602);return s;}
+  static UsbSerialSession verified(){UsbSerialSession s=new UsbSerialSession();s.open(0);s.begin("info",600);s.written(5,5,601);s.receive(bytes(UsbRegressionTest.identity),602);s.mirror.probeFinished=true;s.mirror.probeMirrorReady=true;s.mirror.probeThemeReady=true;return s;}
   static byte[] body(UsbSerialSession s,boolean start,long now){
     byte[] h=s.beginMirror(start,NONCE,now);ok(h!=null,"fixed capture header accepted");
     s.written(h.length,h.length,now+1);
@@ -28,7 +28,8 @@ public final class UsbMirrorRegressionTest {
   static void direct(){
     ok(UsbMirrorBridge.supports("1.16.1","Lilygo T-Embed CC1101"),"reported board supported");
     ok(UsbMirrorBridge.supports("1.16.1","LILYGO T-Embed CC1101 Plus"),"Plus identity supported");
-    ok(!UsbMirrorBridge.supports("1.16","Lilygo T-Embed CC1101")&&!UsbMirrorBridge.supports("1.16.1","Other ESP32"),"unreviewed targets do not get scripts");
+    ok(UsbMirrorBridge.supports("1.17","Lilygo T-Embed CC1101")&&UsbMirrorBridge.supports("1.18.7","Lilygo T-Embed CC1101"),"future version strings pass the identity gate");
+    ok(!UsbMirrorBridge.supports("Unknown","Lilygo T-Embed CC1101")&&!UsbMirrorBridge.supports("1.16.1","Other ESP32"),"unidentified firmware or board cannot use scripts");
     UsbSerialSession unverified=new UsbSerialSession();unverified.open(0);
     ok(unverified.beginMirror(true,NONCE,1000)==null,"no script before verification");
     UsbMirrorBridge bridge=new UsbMirrorBridge();ok(bridge.begin(true,"x\nreboot")==null,"nonce rejects command injection");

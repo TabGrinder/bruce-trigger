@@ -1,55 +1,37 @@
 # Notices
 
-Bruce Trigger is an independent Android companion by TabGrinder. It is not an official BruceDevices, LILYGO, Flipper Devices or Hancock Ventures release. Project names and trademarks belong to their respective owners.
+This is an independent Android companion project by TabGrinder. It is not an official BruceDevices, Flipper Devices, LILYGO, or Hancock Ventures release. Those projects and their trademarks belong to their respective owners.
 
-## Distribution license
+Bruce firmware 1.16.1 source was consulted to document USB commands and the draw-call wire format. The production APK does not bundle a firmware image, firmware theme images, the Flipper app, Biscuit Manager code, or their graphic assets. The Android renderer and launcher icon are independently written. The app bundles the 1,280-byte classic Adafruit 5×7 font table from TFT_eSPI, with the original Adafruit BSD copyright, conditions and disclaimer retained in `app/src/main/res/raw/glcd_license.txt` and exposed in Settings → Open-source notices. The font table is unchanged; Java storage, layout and rendering are independently implemented. This project license does not relicense that third-party data.
 
-The combined distribution is licensed under [GNU AGPLv3](LICENSE). The original Android companion's copyright and permission notice is retained in [LICENSE-MIT.txt](LICENSE-MIT.txt). Third-party components retain their own notices and license terms.
+Font provenance: `lib/TFT_eSPI/Fonts/glcdfont.c` at Bruce commit `ba519c936c87b89c9c667c15b932d7faca5360d5`; source file SHA256 `bde369bf045a11a092f06d6073d44039c72515d8bc83353a87b8b8032e450d7c`. The full TFT_eSPI notices accompanying this dependency are retained, including the Adafruit font license.
 
-## Adafruit font
-
-The app includes the unchanged, 1,280-byte classic Adafruit 5×7 font table from TFT_eSPI. The Adafruit BSD copyright, conditions and disclaimer are preserved in `app/src/main/res/raw/glcd_license.txt` and available in the app under **Settings → Open-source notices**. The accompanying TFT_eSPI notices are retained in [THIRD_PARTY_FONT_NOTICES.txt](docs/THIRD_PARTY_FONT_NOTICES.txt).
-
-Source: `lib/TFT_eSPI/Fonts/glcdfont.c` at Bruce commit `ba519c936c87b89c9c667c15b932d7faca5360d5`.
-
-Source file SHA-256: `bde369bf045a11a092f06d6073d44039c72515d8bc83353a87b8b8032e450d7c`.
-
-The Java storage and rendering code was written for Bruce Trigger. The project's license does not relicense the font data.
-
-## Megalodon
-
-`app/src/main/res/raw/megalodon.txt` adapts the native Megalodon game by **IncursioHack** under **AGPL-3.0-or-later**.
-
-Source: [Bruce's Megalodon implementation](https://github.com/BruceDevices/firmware/blob/ba519c936c87b89c9c667c15b932d7faca5360d5/src/modules/others/tururururu.cpp).
-
-The adaptation runs in the device's RAM interpreter and adds pause/resume and USB graphics output. It does not replace the compiled firmware game. Its source and complete license terms accompany the APK.
+The app runtime uses Android platform APIs only. The Android SDK/JDK used to build it are separate tools, not app dependencies. No downloaded web fonts, analytics libraries or network SDKs are included. Gradle configuration is provided for Android Studio import; the delivered APK was built using tools/build.py, not Gradle, and the Gradle path is not claimed as tested.
 
 ## Protocol references
 
-USB commands and the drawing protocol were reviewed against **Bruce 1.16.1**, commit `ba519c936c87b89c9c667c15b932d7faca5360d5`.
+The native stock protocol and lifecycle were reviewed against BruceDevices/firmware 1.16.1 (ba519c936c87b89c9c667c15b932d7faca5360d5). BruceDevices/App-IOS, revision 96b7fdd16437b58c3bfeabea33c8c403a11b851b, was consulted as an interoperability reference. No Swift code or assets from that AGPL project are bundled or ported. Native screen state and Android safeguards were implemented independently. There are no firmware binaries, patches or flashing tools in this package.
 
-**BruceDevices/App-IOS**, revision `96b7fdd16437b58c3bfeabea33c8c403a11b851b`, was used as an interoperability reference. No Swift code or assets from that project are included.
+## QA image fixtures
 
-The Android renderer and launcher icon were written for Bruce Trigger. The APK does not include a firmware image, firmware themes, the Flipper app or Biscuit Manager code or graphics.
+The source/audit archive includes generated StockImageFixtures.java with unmodified image bytes from sd_files/themes/example/Sharky.zip and Pirata_png.zip in the pinned Bruce repository. These QA-only example assets retain their original upstream authorship and applicable upstream terms; they are not relicensed under this project's MIT notice and are excluded from the production APK. The upstream repository AGPLv3 text is preserved in docs/BRUCE-UPSTREAM-LICENSE.txt. docs/STOCK-IMAGE-PROVENANCE.json records each exact asset and archive hash. The separately supplied firmware source is read to generate serialization fixtures; no firmware binary or patch is distributed. Source: https://github.com/brucedevices/firmware/tree/ba519c936c87b89c9c667c15b932d7faca5360d5/sd_files/themes/example
 
-## Test images and themes
+## Cyberpunk QA theme
 
-The following assets are included in the source for testing and excluded from the APK. Original authorship and upstream license terms are retained; the Android companion's MIT notice does not relicense them.
+QA-only StockImageFixtures includes the 14 original Cyberpunk2077 PNGs by eni9ma from BruceDevices/App-Store-Apps commit c3a78d4a4e431351833d8124109bc81f7c267b57, Themes/Cyberpunk2077 320x170 (the repository path contains a space between Cyberpunk and 2077). Original attribution and applicable upstream terms are retained; this project's MIT license does not relicense those assets. They are absent from the production APK. The official store metadata and exact source URLs/hashes are in docs/THEME-SOURCES.json. The user-specific directory spelling is a test path only.
 
-| Material | Source | Attribution records |
-| --- | --- | --- |
-| Sharky and Pirata example images | Bruce firmware, commit `ba519c936c87b89c9c667c15b932d7faca5360d5`, `sd_files/themes/example/` | [Image provenance](docs/STOCK-IMAGE-PROVENANCE.json) |
-| Cyberpunk 2077 theme by **eni9ma** | BruceDevices/App-Store-Apps, commit `c3a78d4a4e431351833d8124109bc81f7c267b57` | [Theme sources](docs/THEME-SOURCES.json) |
-| Flipper theme by **mostixgrand** | BruceDevices/App-Store-Apps, commit `c3a78d4a4e431351833d8124109bc81f7c267b57` | [Flipper assets](docs/FLIPPER-ASSETS.json) |
+## Flipper QA theme
 
-The upstream Bruce license is preserved in [BRUCE-UPSTREAM-LICENSE.txt](docs/BRUCE-UPSTREAM-LICENSE.txt). The records above list exact paths and hashes.
+FlipperMenuFixtures.java contains the 14 unmodified PNGs from BruceDevices/App-Store-Apps commit c3a78d4a4e431351833d8124109bc81f7c267b57, Themes/Flipper 320x170, attributed by the official store to mostixgrand. This is an upstream QA example, not asserted identical to the user’s local HackTheW0r1d variant. Original authorship and applicable upstream terms are retained; the project license does not relicense these assets. They are excluded from the production APK. docs/FLIPPER-ASSETS.json records the source metadata and exact asset hashes.
 
-## Test games
+## QA game fixtures
 
-The source includes six game fixtures under `docs/game-fixtures/`, excluded from the APK.
+The source archive includes unchanged QA sources and metadata for the six reported games under `docs/game-fixtures`. They are excluded from the production APK. Dino, Highway Racer, Ping Pong, Space Shooter and Tamagochi come from BruceDevices/firmware commit c9d3731b38e67598e5b66a6488d8b12aeb8bf4dd, sd_files/interpreter, as referenced by the official App Store. Their upstream AGPLv3 text is retained in docs/BRUCE-UPSTREAM-LICENSE.txt; this project's MIT notice does not relicense these fixtures.
 
-Dino, Highway Racer, Ping Pong, Space Shooter and Tamagochi come from Bruce firmware commit `c9d3731b38e67598e5b66a6488d8b12aeb8bf4dd`, `sd_files/interpreter/`. **MSI** is credited for Highway Racer, Ping Pong and Space Shooter; **hxd57** is credited for Tamagochi. The upstream AGPLv3 text is retained in [BRUCE-UPSTREAM-LICENSE.txt](docs/BRUCE-UPSTREAM-LICENSE.txt).
+Flappy Bird 1.0.7 is by Valkrycxx, https://github.com/Valkrycxx/bruce-flappybird, commit 97a826ea98be2d108c71fbb1d296458a386033ad. Its original authorship and applicable upstream terms remain intact. Exact provenance and source SHA256 values are in docs/game-fixtures/sources.json. The generated Android fixtures represent drawing operations under hardware doubles, not physical-device captures. The APK contains a fixed graphics adapter and the separate Megalodon RAM adaptation; these six QA games are not bundled. The selected Files route has no one-game hash restriction.
 
-Flappy Bird 1.0.7 is by **Valkrycxx**, from [bruce-flappybird](https://github.com/Valkrycxx/bruce-flappybird), commit `97a826ea98be2d108c71fbb1d296458a386033ad`.
+## Megalodon RAM adaptation
 
-All original authorship and applicable upstream terms remain in effect. Exact source URLs and hashes are listed in [game sources](docs/game-fixtures/sources.json).
+`app/src/main/res/raw/megalodon.txt` is an AGPL-3.0-or-later adaptation of the native Megalodon game by IncursioHack in Bruce `src/modules/others/tururururu.cpp`, commit `ba519c936c87b89c9c667c15b932d7faca5360d5`. Source: https://github.com/brucedevices/firmware/blob/ba519c936c87b89c9c667c15b932d7faca5360d5/src/modules/others/tururururu.cpp . The corresponding source and complete AGPL terms accompany this APK. The combined distribution uses the AGPLv3 license in LICENSE; the original Android companion's MIT copyright and permission notice remain in LICENSE-MIT.txt. Third-party notices remain applicable.
+
+The adaptation runs in the device's RAM interpreter, uses a fixed dark background, two cached drawing assets and a complete device display sprite. It adds pause/resume, bounded execution and USB graphics transport. It does not include the native game's hidden credits dialog sequence; attribution is preserved here and in the app. It does not capture or modify the original compiled game, firmware or stored scripts.

@@ -1,30 +1,26 @@
 {
   "app": "Bruce Trigger",
-  "version": "1.0",
-  "version_code": 100,
+  "version": "1.0.1",
+  "version_code": 101,
   "application_id": "com.tabgrinder.brucetrigger",
-  "apk_sha256": "3d04a453b60c1875d029d2e3ed11d2bf304eb322532b0151db58abd3a7f0c53a",
-  "source_sha256": "922bae32e60c02607fff7bf63f6b2c54bdd5691914df11d8fafed32d8aea7c63",
+  "apk_sha256": "34a5b877a111f3bcf6f6b1ac3eee43b08016bfa89c182145a89bf0eca0c255b7",
   "signer_sha256": "041ca9035b9e807025a0b12c3f01229800448267d1f17a46ec517cdf4514440b",
   "validation": {
-    "release_build": "PASS",
-    "host_regressions": "PASS",
-    "usb_regressions": "PASS (Android/USB doubles)",
-    "apk_integrity_and_signature": "PASS",
-    "embedded_source_inventory": "PASS",
-    "android_instrumentation_build": "PASS",
-    "android_runtime": "NOT RUN: isolated emulator unavailable after startup failures",
-    "visual_review": "PENDING",
-    "physical_hardware_tested": false,
-    "compile_target_api": 35,
-    "python_syntax": "PASS: 27 scripts",
-    "javascript_engine_execution": "NOT RUN: MicroQuickJS unavailable"
+    "android_studio_release_compile": "PASS — reported by maintainer",
+    "apk_v2_signature": "PASS — verified certificate signature and content digest",
+    "apk_zip_integrity": "PASS",
+    "source_release_apk_match": "PASS — uploaded ZIP included an identical APK",
+    "android_hardware_cc1101_plus_bruce117": "PASS — maintainer-reported basic operation",
+    "custom_themes": "KNOWN LIMITATION — less fluid than default",
+    "other_hardware_and_extended_scenarios": "NOT VERIFIED"
   },
   "distribution": "Community APK and corresponding source",
   "navigation": [
     "Remote",
     "Device"
   ],
-  "diagnostics": "Settings \u2192 Diagnostics or Device \u2192 Diagnostics",
-  "validation_record": "VALIDATION.md"
+  "diagnostics": "Settings → Diagnostics or Device → Diagnostics",
+  "saved_notes": "Read/export/delete access is shown only when existing records are present",
+  "review": "docs/REVIEW.md",
+  "released_apk_filename": "BruceTrigger-v1.0.1.apk"
 }

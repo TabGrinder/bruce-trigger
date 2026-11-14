@@ -6,7 +6,7 @@ r=Path(__file__).resolve().parents[1]
 out=r/'build/test-usb'
 shutil.rmtree(out,ignore_errors=True);out.mkdir(parents=True)
 src=r/'app/src/main/java/com/tabgrinder/brucetrigger'
-files=[src/n for n in ['UsbController.java','MenuRefreshPolicy.java','FilesScriptSelection.java','FilesGameScript.java','MegalodonScript.java','GameDrawValidator.java','UsbGameBridge.java','GameScreenStream.java','GameInputQueue.java','RecoverableGameStream.java','PacedUsbWriter.java','StockScriptText.java','TransportListener.java','UsbProfile.java','UsbSerialSession.java','UsbMirrorBridge.java','ThemeScript.java','ObservedThemeScript.java','ThemeTransfer.java','CommandPolicy.java','FrameDecoder.java','FrameValidator.java','WindowBudget.java','DisplayText.java']]
+files=[src/n for n in ['UsbController.java','MenuRefreshPolicy.java','FilesScriptSelection.java','FilesGameScript.java','MegalodonScript.java','GameDrawValidator.java','UsbGameBridge.java','GameScreenStream.java','GameInputQueue.java','RecoverableGameStream.java','PacedUsbWriter.java','StockScriptText.java','TransportListener.java','UsbProfile.java','UsbSerialSession.java','UsbMirrorBridge.java','FirmwareCompatibility.java','ThemeScript.java','ObservedThemeScript.java','ThemeTransfer.java','CommandPolicy.java','FrameDecoder.java','FrameValidator.java','WindowBudget.java','DisplayText.java']]
 files+=sorted((r/'tests/usb-stubs').rglob('*.java'))
 subprocess.run(['java','com.sun.tools.javac.Main','--release','8','-d',str(out),*map(str,files)],check=True)
 if '--compile-only' in sys.argv:raise SystemExit(0)
@@ -40,3 +40,5 @@ subprocess.run(["java","-Dproject.root="+str(r),"-cp",str(out),"com.tabgrinder.b
 subprocess.run(["java","-cp",str(out),"com.tabgrinder.brucetrigger.CompressedGameRegressionTest"],check=True)
 subprocess.run(["java","-cp",str(out),"com.tabgrinder.brucetrigger.PersistentRecoveryTest"],check=True)
 subprocess.run(["java","-cp",str(out),"com.tabgrinder.brucetrigger.QueuedInputCancellationTest"],check=True)
+
+subprocess.run(['java','-cp',str(out),'com.tabgrinder.brucetrigger.CapabilityProbeRegressionTest'],check=True)

@@ -5,13 +5,13 @@ body:
   - type: markdown
     attributes:
       value: |
-        Check the [user guide](https://github.com/TabGrinder/bruce-trigger/blob/main/docs/USAGE.md) and [known limitations](https://github.com/TabGrinder/bruce-trigger/blob/main/docs/KNOWN_LIMITATIONS.md) before reporting. Remove private information from attachments. For security issues, follow the [security policy](https://github.com/TabGrinder/bruce-trigger/blob/main/SECURITY.md).
+        Check the user guide and known limitations before reporting. Remove private information from screenshots and connection reports. For suspected vulnerabilities, follow SECURITY.md instead of posting sensitive details here.
   - type: input
     id: app
     attributes:
       label: App version and source
-      description: Tell us if you built the APK yourself. Include its SHA-256 if available.
-      placeholder: "1.0, release APK"
+      description: Include the APK SHA-256 if available; identify custom builds.
+      placeholder: "1.0.1, local test APK"
     validations:
       required: true
   - type: input
@@ -23,15 +23,15 @@ body:
   - type: input
     id: device
     attributes:
-      label: LILYGO model and Bruce version
-      placeholder: "T-Embed CC1101, Bruce 1.16.1"
+      label: Exact LILYGO model and Bruce version
+      placeholder: "T-Embed CC1101 Plus, Bruce 1.17"
     validations:
       required: true
   - type: input
     id: theme
     attributes:
       label: Active theme
-      description: Enter "default" or the name of your custom theme.
+      description: Specify default or the custom theme name.
     validations:
       required: true
   - type: input
@@ -45,7 +45,7 @@ body:
     id: reproduction
     attributes:
       label: Steps to reproduce
-      description: List the steps that trigger the problem, including the menu or script you were using.
+      description: Include the starting screen, controls used, and whether a script was running. Use a harmless minimal example.
     validations:
       required: true
   - type: textarea
@@ -65,4 +65,4 @@ body:
     id: evidence
     attributes:
       label: Screenshots or diagnostic report
-      description: Optional. Remove private details before sharing.
+      description: Optional. Review and redact private details before attaching or pasting content.

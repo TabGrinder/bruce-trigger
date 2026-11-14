@@ -1,66 +1,115 @@
 # Bruce Trigger
 
-Control Bruce from your Android phone over USB.
+**Control your LILYGO T-Embed CC1101 running Bruce from Android over USB.**
 
-Bruce Trigger is an Android companion app for the **LILYGO T-Embed CC1101**. Inspired by [Bruce firmware](https://bruce.computer/), it brings menu navigation, screen mirroring and supported games to your phone.
+Bruce Trigger is an independent Android companion app by [TabGrinder](https://github.com/TabGrinder). It was inspired by using [Bruce firmware](https://bruce.computer/) on the **LILYGO T-Embed CC1101**, with the goal of bringing its controls and supported screen output to a phone.
 
-[**Download 1.0**](https://github.com/TabGrinder/bruce-trigger/releases/tag/v1.0) · [User guide](docs/USAGE.md) · [Screenshots](docs/SCREENSHOTS.md) · [Credits](CREDITS.md)
+**Release:** 1.0.1 · **Android:** 8.0+ · **Field-tested:** LILYGO T-Embed CC1101 Plus with Bruce 1.17
 
-## Features
+[Previously published version 1.0](https://github.com/TabGrinder/bruce-trigger/releases/tag/v1.0-repoint) · [1.0.1 compatibility notes](docs/BRUCE_DYNAMIC_COMPATIBILITY.md) · [User guide](docs/USAGE.md) · [Known limitations](docs/KNOWN_LIMITATIONS.md) · [Credits](CREDITS.md)
 
-- Navigate Bruce with a rotary control and on-screen buttons.
-- View supported menus and graphics on your phone.
-- Use custom themes.
-- Run supported JavaScript games from Bruce's Files menu.
-- Play the included Megalodon adaptation.
+## Use disclaimer
+
+**For educational purposes only.** Use only on systems you own or are explicitly authorized to assess. Read the [full disclaimer](DISCLAIMER.md).
+
+## What it does
+
+- Connects to the device through USB-C and Android USB host mode.
+- Provides a rotary control, selection and navigation buttons.
+- Displays supported Bruce menus and drawing output on Android.
+- Works with custom themes; the default theme provides smoother performance.
+- Launches supported JavaScript files from Bruce's Files menu through a temporary graphics bridge.
+- Includes a Megalodon adaptation that runs in the device's RAM and sends its drawing output to Android.
+- Keeps connection reports and device queries under **Settings → Diagnostics**.
+
+The connection uses Bruce's existing interfaces and a temporary RAM bridge. It does not require reflashing the device or rewriting stored scripts. Screen mirroring is based on supported drawing operations, so some graphics and functions have [limitations](docs/KNOWN_LIMITATIONS.md).
 
 ## Requirements
 
-- Android **8.0 or later** with USB host / OTG support.
-- A **LILYGO T-Embed CC1101** running **Bruce 1.16.1**.
-- A USB data cable and an OTG adapter if your phone needs one.
+| Component | Requirement |
+| --- | --- |
+| Phone | Android 8.0 or later with USB host / OTG support |
+| Hardware | LILYGO T-Embed CC1101; the USB profile also targets the CC1101 Plus |
+| Firmware | Bruce with compatible `info`, JavaScript bridge and USB drawing operations; **not restricted to a release number** |
+| Connection | USB data cable and a suitable OTG adapter if needed |
+| Device setup | Bruce BLE API off; other scripts stopped before connecting |
+
+Version **1.0.1** checks JavaScript capabilities and validates the capture response rather than restricting Bruce release numbers. The maintainer reported successful physical use on a **LILYGO T-Embed CC1101 Plus with Bruce 1.17** (USB connection, mirroring, controls and restored icon). The standard CC1101 profile is supported by code but was not separately field-tested for this update. Future protocol changes may still require an app update.
+
+## Navigation
+
+- **Remote:** screen output, rotary navigation, selection and connection controls.
+- **Device:** connection status, device identity and setup guidance.
+- **Settings → Diagnostics:** connection report, Copy, Info, Memory, Storage and Clear view.
+- **Settings → Help & about:** setup, themes, compatibility, credits, licenses and privacy.
 
 ## Getting started
 
-1. Download and install **Bruce-trigger-1.0.apk** from the [release page](https://github.com/TabGrinder/bruce-trigger/releases/tag/v1.0).
-2. Start Bruce on the LILYGO and connect it to your phone with a USB data cable.
-3. Open Bruce Trigger, tap **CONNECT** and allow USB access.
-4. Turn the on-screen ring to browse and tap its center to select. Use **EXIT** to go back.
+1. Download the signed APK from the [Bruce Trigger v1.0.1 release](https://github.com/TabGrinder/bruce-trigger/releases/tag/v1.0.1) or build the project in Android Studio.
+2. Power on the LILYGO with Bruce running. Turn off the Bruce BLE API and stop any active script.
+3. Connect the phone and device with a USB data cable. Enable OTG if your phone requires it.
+4. Open Bruce Trigger, tap **CONNECT** and grant Android's USB access request.
+5. Use the rotary ring to navigate and its center to select. **PREV** and **NEXT** move between items; **EXIT** goes back.
+6. Tap **DISCONNECT** when finished.
 
-See the [user guide](docs/USAGE.md) for all controls and troubleshooting.
+See the [user guide](docs/USAGE.md) for installation details, games, troubleshooting and checksum verification.
+
+## Building from source
+
+Open this project in Android Studio with Android SDK 35, JDK 17 and the Gradle 8.9 wrapper. Android Gradle Plugin is 8.7.3. The repository contains **no private signing key**; the signed APK is distributed separately as a GitHub Release asset. The maintainer tested the uploaded release APK with Bruce 1.17 and the LILYGO T-Embed CC1101 Plus; this is not a guarantee for other hardware or future firmware. See [compatibility and test notes](docs/BRUCE_DYNAMIC_COMPATIBILITY.md). Keep any signing/upload key private.
 
 ## Screenshots
 
 | Bruce menu | Megalodon | Space Shooter |
 | --- | --- | --- |
-| <img src="docs/images/remote-menu.png" alt="Bruce menu in the Remote screen" width="220"> | <img src="docs/images/megalodon.png" alt="Megalodon in Bruce Trigger" width="220"> | <img src="docs/images/space-shooter.png" alt="Space Shooter in Bruce Trigger" width="220"> |
+| <img src="docs/images/remote-menu.png" alt="Bruce Trigger Remote screen showing the Bruce menu" width="220"> | <img src="docs/images/megalodon.png" alt="Megalodon displayed above the Bruce Trigger rotary controls" width="220"> | <img src="docs/images/space-shooter.png" alt="Space Shooter displayed above the Bruce Trigger rotary controls" width="220"> |
 
-[View all screenshots](docs/SCREENSHOTS.md).
+Project-provided examples of the Android interface and mirrored content. See the [full gallery](docs/SCREENSHOTS.md) for captions and attribution. Screenshots illustrate the experience; the [v1.0.1 validation record](docs/VALIDATION_v1.0.1.md) states which checks were completed on the release APK.
 
 ## Known limitations
 
-Bruce Trigger works with custom themes, but the default theme provides smoother performance.
+**Bruce Trigger works with custom themes, but the default theme provides smoother performance. For the most responsive experience, use Bruce's default theme.**
 
-Screen mirroring supports a limited set of graphics operations, so some games and screens may appear incomplete. Animated GIF themes show a still preview. Keep the app open while using it; switching to another app closes the USB connection.
+Animated theme GIFs display a first-frame preview. The mirror reproduces supported drawing operations rather than capturing every pixel produced by the firmware; some native games and JavaScript graphics cannot be mirrored. The USB connection closes when the app leaves the foreground.
 
-[Read all known limitations](docs/KNOWN_LIMITATIONS.md).
+See [Known limitations](docs/KNOWN_LIMITATIONS.md) for the supported scope.
+
+## Local data and permissions
+
+Bruce Trigger requests USB access to communicate with the connected device. The supplied application declares no Internet, Bluetooth or location permissions and includes no analytics SDK. The saved device name and any existing notes stay in private app storage. When saved notes exist, **Settings → Saved notes** provides access for reading, exporting or deleting them. New notes are not created in this release. Uninstalling removes this local data.
 
 ## Credits
 
-Developed by **[TabGrinder](https://github.com/TabGrinder)**, with thanks to the **Bruce firmware team** and **LILYGO** for the firmware and hardware that inspired this project.
+Developed by **[TabGrinder](https://github.com/TabGrinder)**. This project uses **Codex** to assist with code optimization and documentation.
 
-Megalodon is based on the game by **IncursioHack**. The display font comes from **Adafruit Industries**, via **TFT_eSPI by Bodmer**. See the [full credits](CREDITS.md) for all contributors and references.
+The inspiration for Bruce Trigger comes from **Bruce firmware running on the LILYGO T-Embed CC1101**. Credit belongs to the **Bruce firmware developers and contributors** for the firmware and to **LILYGO** for the hardware.
 
-Bruce Trigger is an independent community project and is not affiliated with BruceDevices or LILYGO.
+The bundled Megalodon adaptation credits **IncursioHack**. The classic font credits **Adafruit Industries**, with provenance through **TFT_eSPI by Bodmer**. See [CREDITS.md](CREDITS.md) and [NOTICE.md](NOTICE.md) for component-level attribution.
 
-## Use disclaimer
+Bruce Trigger is an independent community project, not an official BruceDevices or LILYGO application. Project names and trademarks belong to their respective owners.
 
-For educational purposes only. Use only on systems you own or are explicitly authorized to assess. Read the [full disclaimer](DISCLAIMER.md).
+## License
 
-## License and development
+The combined distribution is provided under the **GNU Affero General Public License v3**, as supplied in [LICENSE](LICENSE). The Android companion's MIT notice is retained in [LICENSE-MIT.txt](LICENSE-MIT.txt). Third-party components retain their applicable notices and terms.
 
-The combined distribution is licensed under [GNU AGPLv3](LICENSE). The original Android companion's [MIT notice](LICENSE-MIT.txt) and all [third-party notices](NOTICE.md) are retained.
+The corresponding source accompanies the release. See [NOTICE.md](NOTICE.md) for attribution and source references.
 
-To build or contribute, see [Building from source](docs/BUILDING.md) and [Contributing](CONTRIBUTING.md). Test results and outstanding checks are listed in [Validation](VALIDATION.md).
+## Documentation
 
-Found a problem? [Open a bug report](https://github.com/TabGrinder/bruce-trigger/issues/new?template=bug_report.yml). For security issues, follow the [security policy](SECURITY.md).
+| Task | Guide |
+| --- | --- |
+| Install, connect and use the controls | [User guide](docs/USAGE.md) |
+| Check theme, graphics and hardware limits | [Known limitations](docs/KNOWN_LIMITATIONS.md) |
+| Browse interface examples | [Screenshot gallery](docs/SCREENSHOTS.md) |
+| Build and run software checks | [Building from source](docs/BUILDING.md) |
+| Review completed checks and remaining work | [v1.0.1 validation](docs/VALIDATION_v1.0.1.md) and [historical v1.0 review](docs/REVIEW.md) |
+| Record tests on a phone and LILYGO | [Device acceptance guide](docs/DEVICE_ACCEPTANCE.md) |
+| Report a bug or contribute a change | [Contributing](CONTRIBUTING.md) |
+| Understand trust boundaries or report a vulnerability | [Security policy](SECURITY.md) |
+| Review credits, licensing and authorized use | [Credits](CREDITS.md), [notices](NOTICE.md) and [disclaimer](DISCLAIMER.md) |
+
+The source includes the Android app in `app/`, build and regression tools in `tools/`, host fixtures in `tests/`, and documentation and additional audit sources in `docs/`.
+
+## Feedback
+
+Report reproducible problems with the [bug report form](https://github.com/TabGrinder/bruce-trigger/issues/new?template=bug_report.yml). Include your phone model, Android version, exact LILYGO model, Bruce version, active theme and steps to reproduce the problem. Review screenshots and diagnostic reports for private information before posting. For sensitive reports, follow [SECURITY.md](SECURITY.md).

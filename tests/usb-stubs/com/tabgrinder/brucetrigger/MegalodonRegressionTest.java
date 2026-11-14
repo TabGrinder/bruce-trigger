@@ -29,7 +29,8 @@ public final class MegalodonRegressionTest {
   for(String bad:new String[]{template+" ",template.replace("fish", "FISH"),""}){
    boolean rejected=false;try{MegalodonScript.source(bad,nonce,true);}catch(IllegalArgumentException e){rejected=true;}ok(rejected,"tampered resource rejected before upload");
   }
-  UsbSerialSession s=UsbMirrorRegressionTest.verified();s.version="1.17";ok(s.beginMegalodon(template,nonce,1000)==null,"unverified firmware profile cannot execute adapter");
+  UsbSerialSession s=UsbMirrorRegressionTest.verified();s.mirror.probeMirrorReady=false;ok(s.beginMegalodon(template,nonce,1000)==null,"firmware without capability proof cannot execute adapter");
+  s=UsbMirrorRegressionTest.verified();s.version="1.17";ok(s.beginMegalodon(template,nonce,1000)!=null,"newer firmware with compatible proof can execute adapter");
   s=UsbMirrorRegressionTest.verified();s.externalInterpreter=true;ok(s.beginMegalodon(template,nonce,1000)==null,"external interpreter cannot be replaced");
   GameInputQueue q=new GameInputQueue();
   for(int i=0;i<GameInputQueue.CAPACITY;i++)ok(q.offer("nav next",false,"owned",i),"fill fresh movement queue");

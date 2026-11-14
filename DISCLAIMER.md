@@ -1,17 +1,25 @@
 # Use disclaimer
 
-For educational purposes only. Use Bruce Trigger only on systems you own or are explicitly authorized to assess.
+**Bruce Trigger 1.0 · Developed by [TabGrinder](https://github.com/TabGrinder)**
 
-## Responsible use
+## For educational purposes only
 
-Stay within your authorized scope, respect privacy and follow applicable laws. Owning the phone or LILYGO does not give you permission to access or interfere with other devices, networks or systems.
+Bruce Trigger is provided for learning, security awareness demonstrations and authorized assessment. Use only on systems you own or are explicitly authorized to assess. Ownership of the phone or LILYGO does not grant permission to interact with someone else's systems, networks or devices.
 
-Review scripts before running them. They run with their normal Bruce privileges; the graphics bridge does not sandbox them. Screen mirroring may be incomplete, so keep the physical device accessible and check the [known limitations](docs/KNOWN_LIMITATIONS.md).
+Stay within the agreed scope and respect other people's privacy. Do not use this project for unauthorized access, credential collection, disruption or interference. Users are responsible for their actions and for following applicable laws, policies and engagement terms. Calling an activity educational does not make unauthorized activity permitted.
 
-## Warranty
+## Review before use
 
-Bruce Trigger is provided without warranty under its applicable [licenses](LICENSE) and [third-party notices](NOTICE.md). Compatibility, uninterrupted operation and complete screen mirroring are not guaranteed. The license terms govern warranty and liability.
+Bruce Trigger sends controls and supported scripts to connected Bruce firmware. Scripts retain their normal firmware privileges; the graphics bridge is not a sandbox. Read scripts before running them and check their intended behavior in a controlled environment.
 
-## Independence
+The mirrored view reconstructs supported drawing operations. It can omit graphics or differ from the device's physical screen, and connection reports do not certify that an operation is safe or authorized. Keep the physical device accessible and consult the [known limitations](docs/KNOWN_LIMITATIONS.md).
 
-Bruce Trigger is an independent project inspired by Bruce firmware on the LILYGO T-Embed CC1101. It is not an official BruceDevices or LILYGO application. See [Credits](CREDITS.md) for acknowledgements.
+## Warranty and liability
+
+The software is provided without warranties under the terms of its applicable [licenses](LICENSE) and [third-party notices](NOTICE.md). No guarantee is made about correctness, security, uninterrupted operation, complete mirroring or compatibility with every phone, board, theme or firmware version.
+
+The applicable licenses govern warranty and liability. This statement does not replace those licenses, authorize testing of a third party or grant legal immunity. TabGrinder and contributors do not endorse unauthorized use.
+
+## Credits and independence
+
+Bruce Trigger is an independent project inspired by **Bruce firmware on the LILYGO T-Embed CC1101**. It is not an official BruceDevices or LILYGO application. Referenced names and trademarks belong to their respective owners. See [CREDITS.md](CREDITS.md) for project, component and development-tool attribution.

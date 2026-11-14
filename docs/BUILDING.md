@@ -1,59 +1,53 @@
-# Building from source
+# Building Bruce Trigger 1.0.1
 
-The release APK is built with the included Python script. Android Studio and Gradle configuration is also included, but that build path has not been tested.
+The maintained build path for this release is **Android Studio / Gradle**. The source tree matches the Java and Android resource files included in the maintainer's uploaded Android Studio 1.0.1 project. The APK distributed in GitHub Releases is signed separately and must not be committed to the source repository.
 
 ## Requirements
 
-- Python 3.
-- JDK 17, including the Java compiler.
-- Android SDK Platform 35.
-- Android SDK Build Tools 35.0.0.
+- Android Studio with Android SDK Platform 35 installed.
+- JDK 17 for the Gradle daemon.
+- Gradle Wrapper 8.9 (`gradle/wrapper/gradle-wrapper.properties`).
+- Android Gradle Plugin 8.7.3 (root `build.gradle`).
 
-## Build
+## Debug build
 
-Run this from the repository root, replacing the SDK paths with your local paths:
+Open the directory containing `settings.gradle` in Android Studio, allow Gradle sync and use **Build > Build APK(s)**. To build using the included wrapper:
 
-```bash
-python3 tools/build.py \
-  --android-jar /path/to/android-sdk/platforms/android-35/android.jar \
-  --build-tools /path/to/android-sdk/build-tools/35.0.0 \
-  --new-signing-key
+```powershell
+.\gradlew.bat :app:assembleDebug
 ```
 
-The APK is saved to `build/Bruce-trigger-1.0.apk`.
+The output is `app/build/outputs/apk/debug/app-debug.apk`.
 
-Use `--new-signing-key` for your first local build. For subsequent builds, omit it to reuse your key. Keep the generated `.signing/` directory private and backed up. An APK signed with your key cannot be installed as an update to the official release APK.
+## Signed Release build
 
-## Run software checks
+Use **Build > Generate Signed Bundle / APK > APK**, choose the existing private keystore, and select the `release` build variant. Alternatively, configure secure release signing locally without committing your key or credentials. After a successful build, the release APK is available under the destination selected in the signing wizard, often `app/release/app-release.apk`.
 
-```bash
-python3 tools/test.py
-python3 tools/test_usb.py
-python3 tools/check_apk.py --build-tools /path/to/android-sdk/build-tools/35.0.0
+The application ID is `com.tabgrinder.brucetrigger`, version name `1.0.1`, code `101`. Do not add `.test` to the **release** application ID. Do not hardcode `android:debuggable` in `AndroidManifest.xml`.
+
+## Verify the release
+
+Use your Android SDK `apksigner` utility to verify the signed APK:
+
+```powershell
+& "$env:LOCALAPPDATA\Android\Sdk\build-tools\35.0.0\apksigner.bat" verify --verbose --print-certs "PATH_TO_APP_RELEASE_APK"
 ```
 
-These checks cover parsing, rendering, simulated USB behavior, the APK manifest, signatures and the embedded build-input inventory.
+Check version and package with Android Studio's APK Analyzer. Compare the SHA-256 with the checksum provided in the same release:
 
-## Android tests
-
-Instrumentation sources are in `docs/audit-tests/`. The runner expects an SDK directory containing:
-
-- `android-35/android.jar`
-- `android-15/` with Build Tools 35.0.0
-- `platform-tools/`
-- `emulator/`
-
-Create an AVD, then run:
-
-```bash
-python3 docs/audit-tests/run_android_audit.py \
-  --sdk /path/to/test-sdk \
-  --avd-home /path/to/avds \
-  --avd BruceRelease35 \
-  --port 5580 \
-  --adb-port 5041
+```powershell
+Get-FileHash "PATH_TO_APP_RELEASE_APK" -Algorithm SHA256
 ```
 
-The port options let the test emulator run separately from other Android sessions.
+The v1.0.1 checks are documented in [`VALIDATION_v1.0.1.md`](VALIDATION_v1.0.1.md). The historical 1.0 validation is preserved in [`../VALIDATION.md`](../VALIDATION.md).
 
-See [Validation](../VALIDATION.md) for the release's test status and the [hardware test checklist](DEVICE_ACCEPTANCE.md) for checks that need a phone and LILYGO.
+## Regression tests
+
+```powershell
+python tools/test.py
+python tools/test_usb.py
+```
+
+These are host tests with USB doubles; they do not substitute for hardware validation. The older `tools/build.py` / `tools/check_apk.py` path is a separate legacy Android SDK pipeline and should not be used to identify or verify the APK generated through Android Studio for v1.0.1.
+
+The private keystore, passwords, `local.properties`, APK build products, `.gradle/`, and `.idea/` must not be committed to GitHub.

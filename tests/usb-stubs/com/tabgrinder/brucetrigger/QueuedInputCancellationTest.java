@@ -34,6 +34,9 @@ public final class QueuedInputCancellationTest {
       controller.session.version = "1.16.1";
       controller.session.board = "LILYGO T-Embed CC1101";
       controller.session.mirror.active = true;
+      controller.session.mirror.probeFinished = true;
+      controller.session.mirror.probeMirrorReady = true;
+      controller.session.mirror.probeThemeReady = true;
     }
     public void close() { controller.disconnect("Test complete"); controller.destroy(); }
   }

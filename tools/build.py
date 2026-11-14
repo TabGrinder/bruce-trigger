@@ -32,7 +32,7 @@ with zipfile.ZipFile(build/'unsigned.apk','a',zipfile.ZIP_DEFLATED) as z:
  z.write(build/'BUILD-RECORD.json','assets/BUILD-RECORD.json')
 run(tool('zipalign'),'-f','4',build/'unsigned.apk',build/'aligned.apk')
 from signing import sign
-out=build/'Bruce-trigger-1.0.apk'
+out=build/'Bruce-trigger-1.0.1.apk'
 sign(root,tools,build/'aligned.apk',out,a.new_signing_key)
 run('java','-jar',tools/'lib/apksigner.jar','verify','--verbose',out)
 print(out)

@@ -124,8 +124,20 @@ final class UsbSerialSession {
       nextAt = Math.max(nextAt, now + (game.active && !game.nativeUi ? 20 : 120));
     if(completed)queryAt=now+40; // Read-only root metadata does not add another navigation cooldown.
   }
+  byte[] beginProbe(String nonce, long now) {
+    if (!verified || game.engaged() || externalInterpreter || !idle(now)
+        || !UsbMirrorBridge.supports(version, board)) return null;
+    byte[] header = mirror.beginProbe(nonce);
+    if (header == null) return null;
+    decoder.reset();
+    pending = lastCommand = "Check Bruce JavaScript capabilities";
+    stage = Stage.WRITING; deadline = now + 6500;
+    status = "Checking local firmware interfaces";
+    return header;
+  }
   byte[] beginMirror(boolean start, String nonce, long now) {
-    if (!verified || game.engaged() || externalInterpreter || !idle(now) || now < mirror.drainUntil || !UsbMirrorBridge.supports(version, board)) return null;
+    if (!verified || game.engaged() || externalInterpreter || !idle(now) || now < mirror.drainUntil
+        || !mirror.probeMirrorReady || !UsbMirrorBridge.supports(version, board)) return null;
     byte[] header = mirror.begin(start, nonce);
     if (header == null) return null;
     if (start) decoder.reset(); else decoder.discardText();
@@ -139,14 +151,14 @@ final class UsbSerialSession {
   }
   byte[] beginFilesGame(String template,String nonce,String path,long now) {
     if(!verified || externalInterpreter || !idle(now) || mirror.busy()
-        || game.engaged() || !UsbMirrorBridge.supports(version,board))return null;
+        || game.engaged() || !mirror.probeMirrorReady || !UsbMirrorBridge.supports(version,board))return null;
     byte[] header=game.beginFiles(template,nonce,path,mirror.active);if(header==null)return null;
     files.mark("Selected JS bridge upload started");files.clear();if(mirror.active)decoder.discardText();else decoder.reset();pending=lastCommand="Files JS mirror start";
     stage=Stage.WRITING;deadline=now+6500;status="Starting the selected Files script";return header;
   }
   byte[] beginMegalodon(String template,String nonce,long now) {
     if(!verified || externalInterpreter || !idle(now) || mirror.busy()
-        || game.engaged() || !UsbMirrorBridge.supports(version,board))return null;
+        || game.engaged() || !mirror.probeMirrorReady || !UsbMirrorBridge.supports(version,board))return null;
     byte[] header=game.beginMegalodon(template,nonce,mirror.active);if(header==null)return null;
     files.clear();if(mirror.active)decoder.discardText();else decoder.reset();pending=lastCommand="Megalodon RAM start";
     stage=Stage.WRITING;deadline=now+6500;status="Starting Megalodon RAM adaptation";return header;
@@ -164,7 +176,8 @@ final class UsbSerialSession {
     return beginThemeSync(nonce, null, now);
   }
   byte[] beginThemeSync(String nonce, String observedKey, long now) {
-    if (!verified || game.engaged() || externalInterpreter || !idle(now) || !UsbMirrorBridge.supports(version, board)) return null;
+    if (!verified || game.engaged() || externalInterpreter || !idle(now)
+        || !mirror.probeThemeReady || !UsbMirrorBridge.supports(version, board)) return null;
     byte[] header = mirror.beginThemeSync(nonce, observedKey);
     if (header == null) return null;
     decoder.reset(); pending = lastCommand = "Sync theme images (read-only stock JS)";
@@ -230,7 +243,9 @@ final class UsbSerialSession {
         stage = Stage.WRITING; deadline = receivedAt + 6500; status = "Transferring fixed capture script to RAM";
       } else if (!mirror.busy()) {
         pending = null; stage = Stage.OPEN; completed = true;
-        status = mirror.syncing ? "Theme sync complete · " + mirror.themes.summary()
+        status = mirror.probeFinished && "Check Bruce JavaScript capabilities".equals(lastCommand)
+            ? "Firmware capability check complete · " + mirror.probeState()
+            : mirror.syncing ? "Theme sync complete · " + mirror.themes.summary()
             : mirror.active ? "Capture script completed · waiting for screen data" : "Capture stop acknowledged";
       }
       return;

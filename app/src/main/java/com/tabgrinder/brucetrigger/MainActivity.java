@@ -50,6 +50,7 @@ public final class MainActivity extends Activity implements TransportListener {
       FLOW_VERIFY = 2,
       FLOW_THEME = 3,
       FLOW_NATIVE = 4,
+      FLOW_PROBE = 5,
       FLOW_CHECK_ROOT = 7,
       FLOW_STOP_CAPTURE = 8,
       FLOW_RETURN_ROOT = 9,
@@ -121,7 +122,7 @@ public final class MainActivity extends Activity implements TransportListener {
       status = "Disconnected",
       detail = "Connect a Bruce device to begin.";
   private final ConsoleBuffer console = new ConsoleBuffer();
-  private boolean foreground, mirrorRequested;
+  private boolean foreground, mirrorRequested, navigationOnly;
   private static final int NOTES_PAGE_SIZE = 20, EXPORT_NOTE_REQUEST = 200;
   private int sessionOffset = 0, renderGeneration = 0, noteRequestId = 0;
   private boolean resumed = false;
@@ -544,7 +545,7 @@ public final class MainActivity extends Activity implements TransportListener {
   private void devicePage() {
     connectRow(); note(detail); gap();
     page.addView(text(store.usbName() == null ? "USB connection" : store.usbName(), 22, INK));
-    note("LILYGO T-Embed CC1101 / Plus · Bruce 1.16.1");
+    note("LILYGO T-Embed CC1101 / Plus · firmware detected at connection");
     note("Use a USB data cable. Turn off the Bruce BLE API and stop other scripts before connecting.");
     action("Getting started", "Connection and controls", this::gettingStarted);
     action("Diagnostics", "Connection report and device queries", () -> openSection("Diagnostics"));
@@ -816,7 +817,7 @@ public final class MainActivity extends Activity implements TransportListener {
       switch (i) {
         case 0: gettingStarted(); break;
         case 1:
-          explain("Themes & compatibility", "Bruce 1.16.1 · LILYGO T-Embed CC1101 / Plus · Android 8.0+ with USB host / OTG."
+          explain("Themes & compatibility", "Bruce firmware with compatible USB scripting · LILYGO T-Embed CC1101 / Plus · Android 8.0+ with USB host / OTG."
               + "\n\nBruce Trigger works with custom themes, but the default theme provides smoother performance. For the most responsive experience, use Bruce's default theme."
               + "\n\nAnimated theme GIFs show the first frame. The mirror supports drawing operations, not every firmware pixel. Other compiled games and unsupported JavaScript graphics may not appear."
               + "\n\nUSB only. Firmware updates, remote hardware BOOT/RST, physical long-press emulation and LED telemetry are not provided. Use the physical device for those functions.");
@@ -830,9 +831,23 @@ public final class MainActivity extends Activity implements TransportListener {
           break;
         case 5: openSourceNotices(); break;
         case 6:
-          explain("Privacy & permissions", "USB access requires Android consent. No Internet, Bluetooth or location permission is requested. No analytics or background service is included."
-              + "\n\nTheme images stay in memory for the current connection. Configuration and Wi-Fi credentials are not transferred."
-              + "\n\nThe saved USB name and any existing notes remain in private app storage. Copy and export are explicit actions. Uninstalling removes this local data. A USB name is not cryptographic device authentication.");
+          new GuardedDialogBuilder(this)
+              .setTitle("Privacy & permissions")
+              .setMessage("USB access requires Android consent. No Internet, Bluetooth or location permission is requested. No analytics or background service is included."
+                  + "\n\nTheme images stay in memory for the current connection. Configuration and Wi-Fi credentials are not transferred."
+                  + "\n\nThe saved USB name and any existing notes remain in private app storage. Copy and export are explicit actions. Uninstalling removes this local data. A USB name is not cryptographic device authentication."
+                  + "\n\nFor full details about data handling, storage, retention and deletion, read the Privacy Policy.")
+              .setPositiveButton("View Privacy Policy", (dialog, which) -> {
+                Uri policy = Uri.parse("https://brucetriggerprivacypolicy.blogspot.com/");
+                Intent browser = new Intent(Intent.ACTION_VIEW, policy);
+                try {
+                  startActivity(browser);
+                } catch (ActivityNotFoundException e) {
+                  explain("Privacy Policy", "Open this address in your browser:\n" + policy);
+                }
+              })
+              .setNegativeButton("Close", null)
+              .show();
           break;
         default: break;
       }
@@ -1099,7 +1114,7 @@ public final class MainActivity extends Activity implements TransportListener {
       } else {decoder.reset();mirrorStream.reset();mirror.reset();}
       openingAt=SystemClock.elapsedRealtime();beginConnectFlow(FLOW_PREPARE_SELECTION);return;
     }
-    if(c.equals("nav select") && !gamePresentation && !menuMode
+    if(c.equals("nav select") && !navigationOnly && !gamePresentation && !menuMode
         && !usb.session.externalInterpreter && (usb.session.files.menuVisible || usb.session.files.observed
         || usb.session.files.nativeGameMenuVisible)) {
       pendingFilesPath=null;filesRootVerified=false;filesExitCommands=filesExitRetries=0;filesExitUnconfirmed=false;
@@ -1153,7 +1168,9 @@ public final class MainActivity extends Activity implements TransportListener {
 
   private void connectUsb() {
     if (!resumed || !foreground || connectStep != FLOW_IDLE || usb.isClosing() || usb.captureDraining()) return;
-    if (usb.session.mirror.active || menuMode || usb.session.game.engaged()) { closeLinks("Disconnected by user"); return; }
+    if (usb.session.mirror.active || menuMode || usb.session.game.engaged() || navigationOnly) {
+      navigationOnly=false;closeLinks("Disconnected by user");return;
+    }
     if (usb.session.stage == UsbSerialSession.Stage.BLOCKED) {
       closeLinks("Reconnect requested after blocked session");
       explain("Restart Bruce first", "The previous capture state is unknown. Restart Bruce, then tap CONNECT.");
@@ -1175,7 +1192,7 @@ public final class MainActivity extends Activity implements TransportListener {
   }
 
   private void openAndMirror(UsbDevice device) {
-    menuRequired=false;
+    menuRequired=false;navigationOnly=false;
     if(!resumed || !foreground || connectStep != FLOW_IDLE || usb.needsCaptureCleanup())return;
     mirror.clearImages();mirror.reset();mirrorStream.reset();decoder.reset();
     screenPackets=geometryPackets=malformed=0;lastNotification=lastNavigationRequestAt=0;
@@ -1228,9 +1245,27 @@ public final class MainActivity extends Activity implements TransportListener {
           updateScreenStatus();return;
         }
         if(!UsbMirrorBridge.supports(usb.version(),usb.verifiedName())) {
-          cancelConnect();explain("Mirror profile unavailable","This capture path supports Bruce 1.16.1 on LILYGO T-Embed CC1101 / Plus.");updateScreenStatus();return;
+          cancelConnect();explain("Unsupported device identity",
+              "This USB graphics bridge is limited to LILYGO T-Embed CC1101 / Plus with an identifiable Bruce firmware. Firmware release numbers are not restricted.");
+          updateScreenStatus();return;
         }
-        if(usb.syncTheme())connectStep = FLOW_THEME;
+        if(usb.probeCapabilities())connectStep = FLOW_PROBE;
+      } else if(connectStep == FLOW_PROBE && usb.commandIdle() && usb.session.mirror.probeFinished) {
+        if (!usb.session.mirror.probeMirrorReady) {
+          navigationOnly = true;
+          cancelConnect();
+          if(liveUI())explain("Navigation-only connection",
+              "Bruce was identified, but the USB JavaScript bridge did not report the functions needed for screen mirroring. Navigation remains available using the physical device screen. No capture was started.");
+          updateScreenStatus();return;
+        }
+        if (usb.session.mirror.probeThemeReady) {
+          if(usb.syncTheme())connectStep = FLOW_THEME;
+        } else {
+          // A firmware may support display capture even without the storage API.
+          decoder.reset();mirrorStream.reset();mirror.reset();
+          screenPackets=geometryPackets=malformed=0;lastNavigationRequestAt=0;
+          if(usb.mirror(true)){mirrorRequested=true;deviceScreenControl=false;connectStep=FLOW_NATIVE;}
+        }
       } else if(connectStep == FLOW_THEME && usb.commandIdle() && usb.session.mirror.themes.finished()) {
         mirror.loadImages(usb.session.mirror.themes.snapshot());
         if(menuRequired || !usb.session.mirror.themes.mappingSnapshot().isEmpty()) { startMenuView();return; }
@@ -1425,6 +1460,7 @@ public final class MainActivity extends Activity implements TransportListener {
     if (!gamePresentation && mirrorStream.unsupportedSprites())
       return "Megalodon sprites are not sent by stock Bruce";
     if (usb.isClosing()) return "Stopping device session…";
+    if (connectStep == FLOW_PROBE) return "Checking Bruce compatibility…";
     if(gamePresentation && !usb.isReady())return usb.inputState();
     if(gamePresentation && usb.session.game.awaitingExit())return "Leaving game · waiting for Bruce…";
     if(gamePresentation)return usb.session.game.active?gameInputReady()?"JS running · use the screen controls · EXIT to return":"Waiting for game frames…":usb.session.game.outcome;
@@ -1440,6 +1476,7 @@ public final class MainActivity extends Activity implements TransportListener {
     if (usb.captureDraining()) return "Finishing stop…";
     if (!usb.isReady() || usb.session.mirror.busy()) return usb.inputState();
     if (!usb.commandIdle()) return "Waiting for Bruce…";
+    if (navigationOnly) return "Navigation only · use the device screen";
     if (deviceScreenControl) return "Ready · use the device screen";
     if (usb.session.externalInterpreter) return "Script running · screen incomplete";
     if (mirrorRequested && usb.session.mirror.active) {
@@ -1458,7 +1495,7 @@ public final class MainActivity extends Activity implements TransportListener {
     if (root != null) root.setKeepScreenOn(foreground && usb.isReady() && (gamePresentation || menuMode || mirrorRequested && usb.session.mirror.active));
     if (inputText != null) {
       setLabel(inputText, inputStatus());
-      boolean message = usb.session.externalInterpreter || usb.session.game.awaitingExit()
+      boolean message = navigationOnly || usb.session.externalInterpreter || usb.session.game.awaitingExit()
           || mirrorStream.unsupportedSprites() || !menuProblem.isEmpty()
           || linkReady() && (mirror.rejected() > 0 || mirrorStream.broken());
       inputText.setVisibility(message ? View.VISIBLE : View.GONE);
@@ -1482,8 +1519,8 @@ public final class MainActivity extends Activity implements TransportListener {
           :filesReadOnlyFlow()?"Preparing game…"
           :connectStep == FLOW_RESUME_NATIVE?"Restoring screen…"
           :connectStep == FLOW_STOP_FOR_GAME||connectStep == FLOW_START_GAME||usb.session.game.uploading()?"Starting game…":connectStep == FLOW_CHECK_ROOT||connectStep == FLOW_WAIT_ROOT?"Checking menu…":connectStep>=FLOW_PREPARE_SELECTION?"Opening menu…":connectStep == FLOW_STOP_CAPTURE||connectStep == FLOW_RETURN_ROOT?"Returning…"
-          :connectStep == FLOW_VERIFY?"Verifying…":connectStep == FLOW_THEME?"Syncing theme…":connectStep == FLOW_NATIVE?"Starting mirror…"
-          :usb.session.mirror.active||menuMode||usb.session.game.engaged()?"DISCONNECT":"CONNECT");
+          :connectStep == FLOW_VERIFY?"Verifying…":connectStep == FLOW_PROBE?"Checking firmware…":connectStep == FLOW_THEME?"Syncing theme…":connectStep == FLOW_NATIVE?"Starting mirror…"
+          :navigationOnly||usb.session.mirror.active||menuMode||usb.session.game.engaged()?"DISCONNECT":"CONNECT");
       connectAction.setEnabled(!busy);
     }
     if (screenText != null) {
@@ -1501,6 +1538,8 @@ public final class MainActivity extends Activity implements TransportListener {
         :connectStep == FLOW_STOP_FOR_GAME||connectStep == FLOW_START_GAME?"Preparing a new mirrored game…":connectStep == FLOW_CHECK_ROOT||connectStep == FLOW_WAIT_ROOT?"Checking whether Bruce returned to the main menu…":connectStep>=FLOW_PREPARE_SELECTION?"Preparing native screen capture…"
         :connectStep == FLOW_STOP_CAPTURE||connectStep == FLOW_RETURN_ROOT?"Stopping capture for the image menu…"
         :connectStep == FLOW_THEME?"Reading current theme images from Bruce…"
+        :connectStep == FLOW_PROBE?"Checking local JavaScript bridge capabilities…"
+        :navigationOnly?"USB navigation available · screen mirroring unavailable on this firmware. Use the physical display."
         :menuMode?usb.session.externalInterpreter?"Game/script screen unavailable":"Main menu · "+(menuImageShown?"original theme image":"reported root selection")
         :usb.session.externalInterpreter?"This script was started outside the app Files launch flow. Exit it, then choose Files → your JS file → JS Script Run using the app controls."
         :usb.session.mirror.busy()?"USB mirror · "+usb.session.mirror.state()
@@ -1526,6 +1565,7 @@ public final class MainActivity extends Activity implements TransportListener {
       decoder.reset();
       mirror.clearScreen();
       mirrorRequested = false;
+      navigationOnly = false;
       mirrorStream.clearScreen();
       deviceScreenControl = false;
       if (controlDialog != null) controlDialog.dismiss();

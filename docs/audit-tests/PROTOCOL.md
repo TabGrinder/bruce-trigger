@@ -1,6 +1,6 @@
 # Graphics transport and validation
 
-The RAM adapter sends `BT_<session nonce>_GAME|` records. The nonce scopes incoming records to a connection; it is not authentication. Drawing transactions are displayed only after they pass validation and arrive complete and in order. Controls use the stock CLI, with one outstanding command and no replay of uncertain writes.
+The owned RAM adapter sends `BT_<session nonce>_GAME|` records. The nonce scopes incoming records to a connection; it is not authentication. Only verified, ordered, complete drawing transactions are presented. Controls use the stock CLI, with one outstanding command and no replay of uncertain writes.
 
 `R|sequence|length|operation_count|checksum|shard_id|hex|record_checksum` carries uncompressed drawing bytes. `D` uses the same envelope for PackBits-compressed XOR against the last complete nonempty drawing transaction. The adapter chooses `D` only when it reduces the number of data shards. Heartbeats use `R` and leave the previous drawing transaction unchanged. A connection reset discards the compression base.
 
@@ -12,7 +12,7 @@ The USB worker requests one endpoint-sized packet per read. A bounded 12 ms read
 
 `firmware-api.json` pins the stock 1.16.1 display and sprite exports independently. Sprite does not export triangle drawing. Megalodon uses immutable typed-array bitmap masks through the supported Sprite XBitmap API. Its Android asset drawing is compared with an independent native pixel reference. Generic JS games retain their original code and controls.
 
-The test suite includes a Python wire decoder, a MicroQuickJS 0.0.6 harness with simulated native APIs, Java byte-equivalence and erasure tests, API rejection tests, game movement assertions, and Android Canvas/instrumentation tests. See [Validation](../../VALIDATION.md) for completed and outstanding checks.
+Validation includes an independent Python wire decoder, MicroQuickJS 0.0.6 execution with explicit native doubles, Java byte-equivalence and erasure tests, native API negative checks, actual game movement assertions, and Android Canvas/instrumentation tests. These do not establish physical LilyGO FPS or certify every third-party script.
 
 ## Runtime ownership and local resources
 

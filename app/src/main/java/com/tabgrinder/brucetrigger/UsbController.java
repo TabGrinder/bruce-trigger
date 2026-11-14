@@ -102,7 +102,7 @@ final class UsbController {
   boolean isOpen() { return current != null && session.stage != UsbSerialSession.Stage.CLOSED; }
   boolean isReady() { return !closing && isOpen() && session.verified && session.stage != UsbSerialSession.Stage.BLOCKED; }
   boolean isClosing() { return closing; }
-  boolean hasCapture() { return session.mirror.active || (session.mirror.busy() && !session.mirror.syncing); }
+  boolean hasCapture() { return session.mirror.active || (session.mirror.busy() && !session.mirror.syncing && !session.mirror.probing); }
   boolean captureDraining() { return session.mirror.draining(SystemClock.elapsedRealtime()); }
   boolean needsCaptureCleanup() { return session.mirror.busy() || hasCapture() || captureDraining() || session.game.engaged(); }
   boolean interpreterRecoveryRequired(){return !interpreterFence.equals("None");}
@@ -416,6 +416,17 @@ final class UsbController {
     listener.state("Connection error", message);
   }
   boolean mirror(boolean start) { return !closing && launchMirror(start); }
+  boolean probeCapabilities() {
+    if (closing || interpreterRecoveryRequired() || current == null || !valid(current)) return false;
+    String nonce = UUID.randomUUID().toString().replace("-", "").substring(0, 16);
+    byte[] header = session.beginProbe(nonce, SystemClock.elapsedRealtime());
+    if (header == null) return false;
+    rememberInterpreter();
+    if (!current.outbound.compareAndSet(null, header)) {
+      session.block("USB worker busy during capability check. No replay."); return false;
+    }
+    event(session.lastCommand);reportState();return true;
+  }
   boolean menuQueryReady() { return isReady() && session.canQueryMenu(SystemClock.elapsedRealtime()); }
   boolean selectRoot(int index, String expectedJson) {
     if(closing || current==null || !valid(current))return false;
@@ -594,6 +605,7 @@ final class UsbController {
         + "\nWrite receipts: " + session.writes + "\nReceived bytes: " + session.receivedBytes
         + "\nFirmware prompts: " + session.prompts + "\nUnsolicited prompts: " + session.unsolicited
         + "\nLate prompts: " + session.late + "\nLast command: " + session.lastCommand
+        + "\nFirmware capability negotiation: " + session.mirror.probeState()
         + "\nUSB mirror bridge: " + session.mirror.state() + "\nCapture cleanup pending: " + closing
         + "\nLast capture outcome: " + captureOutcome
         + "\nCommand status: " + session.status + "\nLast protocol failure: " + session.failure

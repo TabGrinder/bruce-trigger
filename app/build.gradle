@@ -2,7 +2,7 @@ plugins { id 'com.android.application' }
 android {
  namespace 'com.tabgrinder.brucetrigger'
  compileSdk 35
- defaultConfig { applicationId 'com.tabgrinder.brucetrigger'; minSdk 26; targetSdk 35; versionCode 100; versionName '1.0' }
+ defaultConfig { applicationId 'com.tabgrinder.brucetrigger'; minSdk 26; targetSdk 35; versionCode 101; versionName '1.0.1' }
  compileOptions { sourceCompatibility JavaVersion.VERSION_1_8; targetCompatibility JavaVersion.VERSION_1_8 }
  buildTypes { release { minifyEnabled false } }
 }
