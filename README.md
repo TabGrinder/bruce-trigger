@@ -1,7 +1,15 @@
 # Bruce Trigger
 
 ![Bruce Trigger — USB-C companion for LILYGO T-Embed CC1101 Plus](docs/01_BruceTrigger_Feature_Principal_1024x500.png)
-  
+
+## Video Demo
+
+See Bruce Trigger in action on the LILYGO T-Embed CC1101 Plus, with screen mirroring and controls over USB-C.
+
+[![Watch Bruce Trigger in action](https://img.youtube.com/vi/rix_Y7Z3PRI/hqdefault.jpg)](https://www.youtube.com/watch?v=rix_Y7Z3PRI)
+
+[Watch the demo on YouTube](https://www.youtube.com/watch?v=rix_Y7Z3PRI)
+    
 **Control your LILYGO T-Embed CC1101 running Bruce from Android over USB.**
 
 Bruce Trigger is an independent Android companion app by [TabGrinder](https://github.com/TabGrinder). It was inspired by using [Bruce firmware](https://bruce.computer/) on the **LILYGO T-Embed CC1101**, with the goal of bringing its controls and supported screen output to a phone.
