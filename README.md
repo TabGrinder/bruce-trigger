@@ -1,14 +1,6 @@
 # Bruce Trigger
 
 ![Bruce Trigger — USB-C companion for LILYGO T-Embed CC1101 Plus](docs/01_BruceTrigger_Feature_Principal_1024x500.png)
-
-## Video Demo
-
-See Bruce Trigger in action on the LILYGO T-Embed CC1101 Plus, with screen mirroring and controls over USB-C.
-
-[![Watch Bruce Trigger in action](https://img.youtube.com/vi/rix_Y7Z3PRI/hqdefault.jpg)](https://www.youtube.com/watch?v=rix_Y7Z3PRI)
-
-[Watch the demo on YouTube](https://www.youtube.com/watch?v=rix_Y7Z3PRI)
     
 **Control your LILYGO T-Embed CC1101 running Bruce from Android over USB.**
 
@@ -67,6 +59,12 @@ See the [user guide](docs/USAGE.md) for installation details, games, troubleshoo
 ## Building from source
 
 Open this project in Android Studio with Android SDK 35, JDK 17 and the Gradle 8.9 wrapper. Android Gradle Plugin is 8.7.3. The repository contains **no private signing key**; the signed APK is distributed separately as a GitHub Release asset. The maintainer tested the uploaded release APK with Bruce 1.17 and the LILYGO T-Embed CC1101 Plus; this is not a guarantee for other hardware or future firmware. See [compatibility and test notes](docs/BRUCE_DYNAMIC_COMPATIBILITY.md). Keep any signing/upload key private.
+
+## Video Demo
+
+See Bruce Trigger in action on the LILYGO T-Embed CC1101 Plus, with screen mirroring and controls over USB-C.
+
+[![Watch Bruce Trigger in action](https://img.youtube.com/vi/rix_Y7Z3PRI/hqdefault.jpg)](https://www.youtube.com/watch?v=rix_Y7Z3PRI)
 
 ## Screenshots
 
