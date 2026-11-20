@@ -16,7 +16,7 @@
     "apk_zip_integrity": "NOT INDEPENDENTLY VERIFIED for v1.0.2",
     "source_release_apk_match": "NOT INDEPENDENTLY VERIFIED for v1.0.2",
     "android_hardware_cc1101_plus_bruce117": "NOT VERIFIED on v1.0.2; previous v1.0.1 had maintainer-reported basic operation",
-    "android_hardware_cc1101_plus_bruce_beta_2026_11_19": "NOT VERIFIED — no v1.0.2 device diagnostic was provided",
+    "android_hardware_cc1101_plus_bruce_beta_2026_11_19": "PASS — maintainer-reported physical operation with Bruce beta b8207a0 on LILYGO T-Embed CC1101 Plus; detailed feature-by-feature diagnostics were not independently reviewed",
     "custom_themes": "KNOWN LIMITATION — less fluid than the default theme as reported for earlier releases; not rechecked for v1.0.2",
     "other_hardware_and_extended_scenarios": "NOT VERIFIED"
   },
