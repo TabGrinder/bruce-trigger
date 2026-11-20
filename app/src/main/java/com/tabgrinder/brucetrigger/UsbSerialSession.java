@@ -265,7 +265,7 @@ final class UsbSerialSession {
     }
     if(stage==Stage.WAITING && "optionsJSON".equals(pending) && line.startsWith("{") && line.endsWith("}"))menuJson=line;
     if (stage == Stage.WAITING && "info".equals(pending)) {
-      if (line.matches("Bruce v[0-9][A-Za-z0-9._+\\-]{0,47}")) {
+      if (line.startsWith("Bruce v") && FirmwareCompatibility.supportsVersion(line.substring(7))) {
         versionSeen = true; version = line.substring(7);
       }
       if (line.startsWith("Device: ") && line.length() > 8 && line.length() <= 104) {
