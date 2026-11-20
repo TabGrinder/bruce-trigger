@@ -1,1 +1,1 @@
-34a5b877a111f3bcf6f6b1ac3eee43b08016bfa89c182145a89bf0eca0c255b7  BruceTrigger-v1.0.1.apk
+1a4a1ef5c3ce72c5a3ab9089b2d313f65477491ac765e61ec085943ca3e5aa4b  BruceTrigger-v1.0.2.apk
