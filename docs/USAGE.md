@@ -1,13 +1,13 @@
-> **Version note:** This guide covers Bruce Trigger v1.0.1. The signed APK is available under the v1.0.1 GitHub release; the older v1.0 build restricts firmware support.
+> **Version note:** This guide covers Bruce Trigger v1.0.2. The signed APK is available under the [v1.0.2 GitHub release](https://github.com/TabGrinder/bruce-trigger/releases/tag/v1.0.2). This update fixes firmware version identification for certain Bruce beta builds; other firmware interfaces must still be compatible.
 
-# Bruce Trigger 1.0.1 — User Guide
+# Bruce Trigger 1.0.2 — User Guide
 
 **For educational purposes only.** Use only on systems you own or are explicitly authorized to assess. Read the [full disclaimer](../DISCLAIMER.md).
 
 ## Install the APK
 
-1. Open the [version 1.0.1 release](https://github.com/TabGrinder/bruce-trigger/releases/tag/v1.0.1).
-2. Download **BruceTrigger-v1.0.1.apk**.
+1. Open the [version 1.0.2 release](https://github.com/TabGrinder/bruce-trigger/releases/tag/v1.0.2).
+2. Download **BruceTrigger-v1.0.2.apk**.
 3. Open the downloaded file.
 4. If Android asks, allow the browser or file manager used for this installation to install unknown apps.
 5. Complete the installation and open **Bruce Trigger**.
@@ -118,30 +118,30 @@ Tap **DISCONNECT** and allow the app to finish closing the session before removi
 
 ## Verify the download
 
-Download **SHA256SUMS** from the same release and compare it with the APK's SHA-256.
+Download **SHA256SUMS.txt** from the same release and compare it with the APK's SHA-256.
 
 On Windows PowerShell:
 
 ```powershell
-Get-FileHash .\BruceTrigger-v1.0.1.apk -Algorithm SHA256
+Get-FileHash .\BruceTrigger-v1.0.2.apk -Algorithm SHA256
 ```
 
-On Linux, from the directory containing the APK and SHA256SUMS:
+On Linux, from the directory containing the APK and SHA256SUMS.txt:
 
 ```bash
-sha256sum -c SHA256SUMS
+sha256sum -c SHA256SUMS.txt
 ```
 
 On macOS:
 
 ```bash
-shasum -a 256 BruceTrigger-v1.0.1.apk
+shasum -a 256 BruceTrigger-v1.0.2.apk
 ```
 
-The expected hash for this release artifact is:
+The expected SHA-256 for the APK in the v1.0.2 GitHub release is:
 
 ```text
-3d04a453b60c1875d029d2e3ed11d2bf304eb322532b0151db58abd3a7f0c53a
+1a4a1ef5c3ce72c5a3ab9089b2d313f65477491ac765e61ec085943ca3e5aa4b
 ```
 
 ## Report a problem
