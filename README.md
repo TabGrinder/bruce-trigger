@@ -6,7 +6,7 @@
 
 Bruce Trigger is an independent Android companion app by [TabGrinder](https://github.com/TabGrinder). It was inspired by using [Bruce firmware](https://bruce.computer/) on the **LILYGO T-Embed CC1101**, with the goal of bringing its controls and supported screen output to a phone.
 
-**Release:** 1.0.1 · **Android:** 8.0+ · **Field-tested:** LILYGO T-Embed CC1101 Plus with Bruce 1.17
+**Latest release:** [v1.0.2](https://github.com/TabGrinder/bruce-trigger/releases/tag/v1.0.2) · **Android:** 8.0+ · **Hardware:** LILYGO T-Embed CC1101 / CC1101 Plus
 
 [Previously published version 1.0](https://github.com/TabGrinder/bruce-trigger/releases/tag/v1.0-repoint) · [1.0.1 compatibility notes](docs/BRUCE_DYNAMIC_COMPATIBILITY.md) · [User guide](docs/USAGE.md) · [Known limitations](docs/KNOWN_LIMITATIONS.md) · [Credits](CREDITS.md)
 
@@ -38,6 +38,12 @@ The connection uses Bruce's existing interfaces and a temporary RAM bridge. It d
 
 Version **1.0.1** checks JavaScript capabilities and validates the capture response rather than restricting Bruce release numbers. The maintainer reported successful physical use on a **LILYGO T-Embed CC1101 Plus with Bruce 1.17** (USB connection, mirroring, controls and restored icon). The standard CC1101 profile is supported by code but was not separately field-tested for this update. Future protocol changes may still require an app update.
 
+### Bruce Beta Compatibility
+
+Bruce Trigger v1.0.2 adds support for firmware version identifiers based on Git commit hashes, including the November 19, 2026 Bruce beta (`b8207a0`).
+
+This update fixes firmware identification while preserving existing USB communication and device verification safeguards. Compatibility with future firmware changes is not guaranteed.
+
 ## Navigation
 
 - **Remote:** screen output, rotary navigation, selection and connection controls.
@@ -47,7 +53,7 @@ Version **1.0.1** checks JavaScript capabilities and validates the capture respo
 
 ## Getting started
 
-1. Download the signed APK from the [Bruce Trigger v1.0.1 release](https://github.com/TabGrinder/bruce-trigger/releases/tag/v1.0.1) or build the project in Android Studio.
+1. Download the signed APK from the [Bruce Trigger v1.0.2 release](https://github.com/TabGrinder/bruce-trigger/releases/tag/v1.0.2) or build the project in Android Studio.
 2. Power on the LILYGO with Bruce running. Turn off the Bruce BLE API and stop any active script.
 3. Connect the phone and device with a USB data cable. Enable OTG if your phone requires it.
 4. Open Bruce Trigger, tap **CONNECT** and grant Android's USB access request.
